@@ -7,7 +7,7 @@
 
 Este capítulo apresenta o desenvolvimento do MetaRefino, aplicativo para Windows destinado ao tratamento de matrizes de dados metabolômicos obtidas por cromatografia líquida acoplada à espectrometria de massas. São descritos o levantamento dos requisitos, a organização do projeto e a arquitetura que articula a interface gráfica, o processamento científico e a persistência. A exposição considera as necessidades relatadas pelo laboratório parceiro, as decisões registradas durante a implementação e as funcionalidades efetivamente acessíveis pelo fluxo principal da aplicação.
 
-O escopo apresentado compreende a preparação dos arquivos, a validação, o diagnóstico, a correção do sinal, o pré-processamento, as análises estatísticas e a geração de resultados. A análise de multiverso e a predição e o enriquecimento de vias metabólicas foram excluídos do escopo da monografia e da entrega avaliada, embora existam componentes em versão beta no repositório e no executável. Essa delimitação acompanha a adotada no capítulo de testes. A presença de uma implementação, por si só, não é tomada como comprovação de sua validação em todas as condições de uso.
+O escopo apresentado compreende a preparação dos arquivos, a validação, o diagnóstico, a correção do sinal, o pré-processamento, as análises estatísticas e a geração de resultados. A presença de uma implementação, por si só, não é tomada como comprovação de sua validação em todas as condições de uso.
 
 A entrada do MetaRefino corresponde a uma matriz tabular já produzida pelo processamento primário, e não ao arquivo instrumental bruto. A detecção e o alinhamento dos picos permanecem no fluxo anterior, realizado com ferramentas como o Progenesis QI. Além disso, uma \textit{feature}, identificada por características do sinal como tempo de retenção e razão massa/carga, não equivale necessariamente a um metabólito identificado. O tratamento e as análises apresentados neste capítulo operam sobre essas variáveis e não estabelecem, isoladamente, a identidade química ou a relevância biológica de cada sinal.
 
@@ -140,7 +140,7 @@ O planejamento articulou o calendário acadêmico, o acompanhamento do orientado
 
 No primeiro semestre, as atividades compreenderam a definição do grupo e do tema, a ideação, a preparação do vídeo de apresentação da proposta, a definição da orientação, a aprovação do escopo e a elaboração dos capítulos iniciais. A apresentação do TCC I e os ajustes decorrentes das orientações recebidas constituíram os marcos de transição para a continuidade do trabalho.
 
-No desenvolvimento técnico, a aplicação foi decomposta em fases de fundação, ingestão e validação, métricas de qualidade, correção, diagnóstico, pré-processamento, estatística, geração sintética, decisão, persistência, interoperabilidade e interface. O histórico também contém a fase de multiverso, posteriormente retirada do escopo da monografia. Essa decomposição descreve a organização da implementação, não uma declaração de que todos os critérios de todas as fases foram atendidos.
+No desenvolvimento técnico, a aplicação foi decomposta em fases de fundação, ingestão e validação, métricas de qualidade, correção, diagnóstico, pré-processamento, estatística, geração sintética, decisão, persistência, interoperabilidade e interface. Essa decomposição descreve a organização da implementação, não uma declaração de que todos os critérios de todas as fases foram atendidos.
 
 A construção iniciou-se pelos contratos e pelas estruturas de dados, avançando para os algoritmos e sua integração. Os planos registrados a partir de julho documentam essa sequência. A interface Windows foi acrescentada à evolução do projeto, seguida de ajustes de operação, paralelismo, métodos de processamento, análises e figuras. Em outubro, o fluxo passou a permitir a inspeção dos resultados por etapas. As atividades posteriores incluíram correções e verificações dos métodos, conforme os registros discutidos no capítulo de testes.
 
@@ -774,8 +774,6 @@ A aba \textit{Gráficos} disponibiliza as representações visuais dos dados e d
 
 A aba \textit{O que este aplicativo NÃO faz} explicita os limites das funcionalidades. Essa informação integra o fluxo de utilização porque o tratamento computacional de uma matriz não equivale à identificação de compostos, à confirmação de significado biológico ou à validação clínica dos resultados.
 
-O executável também contém as abas \textit{Multiverso (beta)} e \textit{Vias metabólicas (beta)}. Esses recursos permanecem classificados como funcionalidades experimentais e trabalhos futuros, fora do fluxo principal considerado na entrega ao laboratório e no escopo deste trabalho.
-
 A área \textit{Trabalhos em curso} permanece disponível durante a navegação. Ela permite consultar o estado das operações e solicitar o cancelamento dos trabalhos que não precisam continuar. Dessa forma, o acompanhamento não fica restrito à aba em que a execução foi iniciada.
 
 O fluxo principal de utilização pode ser organizado nas seguintes etapas:
@@ -847,8 +845,6 @@ A distribuição é acompanhada de instruções de utilização em um arquivo de
 As versões distribuídas recebem identificação própria e podem ser relacionadas ao estado do código-fonte utilizado em sua geração. A conferência por soma de verificação permite comparar a integridade do arquivo compactado com o artefato produzido no empacotamento.
 
 O aplicativo não utiliza instalador nem assinatura de código. Essas características fazem parte do formato de distribuição adotado e são informadas ao usuário. A utilização ocorre diretamente a partir da pasta extraída, que precisa conter os recursos necessários e permitir as operações locais de escrita realizadas pelo sistema.
-
-Os recursos experimentais presentes no executável permanecem identificados como beta. Sua inclusão no pacote não altera o escopo das funcionalidades consideradas na entrega principal, nem transforma seu uso em requisito para executar o tratamento das matrizes.
 
 \subsection{Repositório do código-fonte}
 \label{subsec:repositorio-codigo-fonte}

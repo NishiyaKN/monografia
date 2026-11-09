@@ -12,12 +12,11 @@ Este capítulo apresenta como o sistema foi verificado e quais resultados os tes
 
 Daí duas características que atravessam o capítulo. A primeira é que os resultados negativos são relatados com o número e a causa, e não omitidos. A segunda é que cada número vem acompanhado da população sobre a qual foi medido --- quantos modos cromatográficos, quantas \textit{features}, qual versão do programa ---, porque um número sem população não é comparável com nada.
 
-Os testes estão em duas categorias. A primeira são os testes do sistema, já executados e integrados ao desenvolvimento: a suíte automatizada, o teste de sistema caixa-preta sobre o executável e as medições que avaliam os resultados contra o referencial. A segunda é a avaliação com usuários do laboratório parceiro, que usaram a ferramenta com estudos do próprio laboratório e devolveram uma avaliação escrita. O capítulo tem cinco seções: o plano de testes das duas categorias (\ref{sec:5-1}); os cenários executados (\ref{sec:5-2}) e os resultados avaliados contra o referencial (\ref{sec:5-3}), da primeira; a avaliação com usuários do laboratório (\ref{sec:5-4}), da segunda; e os limites da verificação (\ref{sec:5-5}). Duas funcionalidades presentes no executável --- a análise de multiverso e a predição e o enriquecimento de vias metabólicas --- ficaram fora do escopo deste trabalho e são tratadas como trabalho futuro; os testes que as exercitam continuam na suíte automatizada, como funcionalidades em versão beta, mas não são discutidos neste capítulo.
+Os testes estão em duas categorias. A primeira são os testes do sistema, já executados e integrados ao desenvolvimento: a suíte automatizada, o teste de sistema caixa-preta sobre o executável e as medições que avaliam os resultados contra o referencial. A segunda é a avaliação com usuários do laboratório parceiro, que usaram a ferramenta com estudos do próprio laboratório e devolveram uma avaliação escrita. O capítulo tem cinco seções: o plano de testes das duas categorias (\ref{sec:5-1}); os cenários executados (\ref{sec:5-2}) e os resultados avaliados contra o referencial (\ref{sec:5-3}), da primeira; a avaliação com usuários do laboratório (\ref{sec:5-4}), da segunda; e os limites da verificação (\ref{sec:5-5}).
 
-A aplicação continua em desenvolvimento. O que este capítulo afirma se restringe aos itens aqui abordados e às versões do programa que cada seção nomeia; o que entrou no programa depois dessas versões, e as funcionalidades em beta, ficam fora desta versão do texto.
+A aplicação continua em desenvolvimento. O que este capítulo afirma se restringe aos itens aqui abordados e às versões do programa que cada seção nomeia; o que entrou no programa depois dessas versões fica fora desta versão do texto.
 
-% D523 (01/10/2026): multiverso e vias são trabalho futuro, beta no executável, fora do TCC. O
-% parágrafo do desenvolvimento contínuo segue a resposta do orientador ao grupo, em novembro de 2026:
+% O parágrafo do desenvolvimento contínuo segue a resposta do orientador ao grupo, em novembro de 2026:
 % a versão beta não é problema, desde que o texto diga que a aplicação está em constante
 % desenvolvimento e que esta versão do documento se restringe aos itens abordados nele; o mesmo vale
 % para a apresentação.
@@ -119,8 +118,8 @@ Os marcadores se sobrepõem --- um teste pode ser \textit{golden} e de desempenh
 Duas regras de método valem para os casos do plano: o caso negativo precisa ter sido visto não acusar com o defeito removido, e o número registrado vem com a população em que foi medido.
 
 % Planilha, células C17 e C18. O limite de 5.000 é relato do laboratório, e não propriedade
-% conferida: o MetaboAnalystR 4.3.0 local leu 12.000 variáveis sem objeção (D297). Saíram a
-% classe-limite «grade completa» e o custo do multiverso (D523).
+% conferida: o MetaboAnalystR 4.3.0 local leu 12.000 variáveis sem objeção (D297). Saíram dois
+% itens por D523.
 
 \textbf{Dados de teste.} Os quatro pares de arquivos reais cedidos pelo laboratório, um por modo cromatográfico, com 68 injeções cada --- 7 controles de qualidade (QCs) e 61 amostras de estudo, em quatro grupos clínicos --- e 2.039 (\texttt{neg\_\allowbreak{}hilic}), 2.184 (\texttt{neg\_\allowbreak{}c18}), 2.572 (\texttt{pos\_\allowbreak{}c18}) e 6.035 (\texttt{pos\_\allowbreak{}hilic}) \textit{features}; cópias desses arquivos com um defeito plantado por cópia, para os casos negativos; e matrizes sintéticas, para os testes de recuperação com resposta conhecida. Pela regra do plano, os arquivos clínicos não são versionados nem saem da máquina de teste.
 
@@ -132,7 +131,7 @@ Duas regras de método valem para os casos do plano: o caso negativo precisa ter
 
 % Planilha v1.5, C24, C25 e C26.
 
-\textbf{Fora do escopo.} A identificação de metabólitos; a análise de multiverso e a predição e o enriquecimento de vias metabólicas, tratados como trabalho futuro; a interface web; a validação biológica dos achados; o uso por vários usuários ao mesmo tempo; a autenticação; a assinatura digital e o instalador; e as fases da especificação que não fecham (ver \ref{sec:5-3-4}).
+\textbf{Fora do escopo.} A identificação de metabólitos; a interface web; a validação biológica dos achados; o uso por vários usuários ao mesmo tempo; a autenticação; a assinatura digital e o instalador; e as fases da especificação que não fecham (ver \ref{sec:5-3-4}).
 
 \textbf{Produto sob teste.} A primeira execução dos casos internos foi sobre o executável congelado em 09/09/2026 (commit \texttt{e3b4d7e}). Os sete que reprovaram nela foram reexecutados em 03/11/2026 sobre o código daquele dia, seis no ambiente de desenvolvimento e o CT-APP-003 com a pasta congelada de novo (\ref{sec:5-2-2}). O executável que os usuários do laboratório avaliaram (\ref{sec:5-4}) é outro: a versão \texttt{windows-\allowbreak{}2026.\allowbreak{}10.\allowbreak{}25.\allowbreak{}1}, de 25/10/2026 (commit \texttt{e889349}), que inclui as abas acrescentadas depois do teste, os consertos registrados até lá e as correções do SERRF, do LOESS e da validação da entrada de 24/10/2026 (\ref{sec:5-3}). Além disso, nem todo resultado obtido foi medido no executável: vários --- por exemplo os dos casos CT-VAL-001, CT-VAL-003, CT-ART-001, CT-ART-002, CT-QUA-001 e CT-TRB-001 ---, e as remedições de 13/09/2026, rodaram no ambiente de desenvolvimento, pela interface de programação no mesmo processo. A descrição deste nível como caixa-preta sobre o executável vale para os casos que a planilha registra terem rodado nele.
 
@@ -144,7 +143,7 @@ Duas regras de método valem para os casos do plano: o caso negativo precisa ter
 
 \subsection{Os casos de teste}\label{sec:5-2-1}
 
-A Tabela~\ref{tab:5-2} resume os casos da aba ``Fluxo de Teste'' da planilha. A redação do cenário foi encurtada; os passos, os dados e os resultados completos estão na planilha. Os quatro casos da análise de multiverso (CT-MUL-001 a 004) foram executados e continuam na planilha, mas não entram aqui, porque a funcionalidade passou a trabalho futuro.
+A Tabela~\ref{tab:5-2} resume os casos da aba ``Fluxo de Teste'' da planilha. A redação do cenário foi encurtada; os passos, os dados e os resultados completos estão na planilha.
 
 \begin{table}[p]
 \centering
@@ -224,11 +223,10 @@ CT-USA-002 & Público-alvo & todos os RF & questionário pós-uso, na ordem das 
 
 \textbf{Totais.} São 31 casos: por tipo, 21 funcionais, 3 de integração, 2 de desempenho, 3 de usabilidade, 1 de compatibilidade e 1 de segurança; por prioridade, 22 de prioridade alta, 8 de média e 1 de baixa. Foram executados 29, entre 09 e 11/09/2026, com 22 aprovados e 7 reprovados; os 7 foram reexecutados em 03/11/2026 e aprovados (\ref{sec:5-2-2}), e os 29 casos internos estão aprovados. Os 2 de usabilidade foram executados na avaliação com usuários, de 16/09 a 05/11/2026, e ficam reprovados contra o resultado esperado escrito, por desvio do protocolo, e não por defeito do sistema (\ref{sec:5-4-4}).
 
-% Planilha v1.5, aba «Fluxo de Teste», linhas 6 a 40, sem as linhas dos CT-MUL; contagem feita
+% Planilha v1.5, aba «Fluxo de Teste», linhas 6 a 40, sem as quatro linhas que saem por D523; contagem feita
 % com openpyxl em 04/10/2026. O status dos dois CT-USA é o da planilha v1.9, linhas 39 e 40. O dos
 % sete reexecutados é o da planilha v2.0, linhas 8, 13, 25, 26, 34, 36 e 37, contado com openpyxl em
-% 08/11/2026: 30 aprovados e 5 reprovados nas 35 linhas, e os 5 são os três CT-MUL de 5.2.1 e os dois
-% CT-USA.
+% 08/11/2026: nas 31 linhas dos casos deste capítulo, 29 aprovados e os dois CT-USA reprovados.
 
 \subsection{Os reprovados da primeira execução, a quem cada defeito foi atribuído, e a reexecução}\label{sec:5-2-2}
 
@@ -276,7 +274,7 @@ CT-CLI-001 & as duas frentes do BUG-006 não voltaram: o teste de identidade byt
 \fonte{Elaborado pelos autores.}
 \end{table}
 
-% Insumo 5.2.2, sem as linhas dos CT-MUL (BUG-009 a 011, os três de critério). Planilha v1.8:
+% Insumo 5.2.2, sem as linhas de BUG-009 a 011, que saem por D523. Planilha v1.8:
 % células J13, J25, J26 e J36, cada uma com a nota de 03/11/2026 na coluna R; os textos seguem a
 % decisão escrita na própria linha, e as severidades e localizações de CT-VAL-002 foram conferidas em
 % src/refino/io/issues.py (FIXED_SEVERITY), src/refino/io/sniffer.py e src/refino/io/validators.py.
@@ -307,15 +305,14 @@ BUG-006 (linha de comando) & corrigido em 25/09/2026 & o teste passou a achar o 
 Pelo critério de saída do plano, o BUG-006 exigia correção e reexecução, ou decisão do orientador para entregá-lo como limitação. A correção foi feita e reexecutada nos testes automatizados, e o caso CT-CLI-001 foi reexecutado em 03/11/2026 e aprovado (Tabela~\ref{tab:5-3a}).
 
 % D519; mensagem do commit ba278d5 (D542): «49 passos e 0 falhas no congelamento»; nota de
-% publicação de D593, para a windows-2026.10.25.1: «O congelamento passou com 49 passos e 0 falhas». O BUG-001 —
-% texto do LEIA-ME sobre o número de análises do multiverso — sai com o multiverso.
+% publicação de D593, para a windows-2026.10.25.1: «O congelamento passou com 49 passos e 0 falhas». O BUG-001
+% sai por D523.
 
 \subsection{A aba ``Gráficos'' não tem caso de sistema}\label{sec:5-2-4}
 
 A aba ``Gráficos'', com as figuras de qualidade da correção, entrou no ramo principal em 16/09/2026, depois do executável testado. O que existe para ela é verificação do nível 1 --- \textbf{193} testes da aba, na versão publicada em 25/10/2026, além de testes unitários por família de figura --- e a verificação dirigida descrita em \ref{sec:5-2-5}. \textbf{Nenhum caso caixa-preta sobre o executável a cobre}, e essa lacuna fica declarada. A devolutiva dos usuários traz sugestões sobre a exportação e a personalização das figuras dessa aba (\ref{sec:5-4-4}).
 
-% Merge f4f2718. A aba «Vias metabólicas» também entrou depois do teste e fica fora (D523). Os
-% 193: pytest --collect-only tests/test_desktop_figuras.py sobre e889349, em 28/10/2026; eram 180 em
+% Merge f4f2718. Os 193: pytest --collect-only tests/test_desktop_figuras.py sobre e889349, em 28/10/2026; eram 180 em
 % 04/10/2026.
 
 Para fechar a lacuna, ficam propostos sete casos no formato da planilha, \textbf{a executar} --- não são resultado (Tabela~\ref{tab:5-5}).
@@ -347,7 +344,7 @@ CT-GRA-007 & NEGATIVO: pedir o \textit{volcano} ou os \textit{scores} do PLS-DA 
 Depois que a ferramenta foi enviada para teste ao professor de metabolômica Álex Aparecido Rosini Silva, em 16/09/2026, entraram no produto as \textbf{figuras de qualidade da correção}, na aba ``Gráficos'': o painel da correção, o violino do RSD por \textit{feature} e a composição por classe (requisito RF-20, integrado em 17/09/2026). Como chegaram depois do teste de sistema, a pergunta ``funcionam?'' foi respondida em 24/09/2026 por caminhos de verificação independentes, cada um com a sua população declarada. Nenhum deles rodou o executável congelado: todos rodaram no ambiente de desenvolvimento, com a interface de programação chamada no mesmo processo. Essa verificação usou a floresta do SERRF anterior à de 21/10/2026 e o SERRF e o LOESS anteriores às correções de 24/10/2026 (\ref{sec:5-3}): os valores do SERRF e do LOESS citados nesta subseção são dessa versão, e os da matriz sem correção não dependem dela.
 
 % Merge 0144529, de 17/09/2026. No insumo são os caminhos 1 e 3, e a metade das figuras do
-% caminho 5; os caminhos 2 e 4 e a metade das vias do 5 são da predição de vias (D523). O nome e a
+% caminho 5; os caminhos 2 e 4 e a outra metade do 5 saem por D523. O nome e a
 % data são do grupo, em 03/11/2026: «16/09 mandamos o software pra ele testar». O plano das figuras
 % (docs/plans/2026-09-16-1721-feat-figuras-de-qualidade-da-correcao-plan.md) registra que ele viu a
 % ferramenta e sentiu falta dos gráficos que o pipeline em R gera, relato de 16/09/2026.
@@ -408,10 +405,10 @@ A documentação interna de uma rota cita números antigos & os números de sete
 \fonte{Elaborado pelos autores.}
 \end{table}
 
-Cinco foram corrigidos em 25/09/2026, cada um com teste, e o sexto foi corrigido em parte: os textos de tela deixaram de atribuir ao LOESS da ferramenta o que vale para o do R, e o que ficou aberto está registrado. Outros quatro problemas registrados na mesma verificação são da aba de vias metabólicas e acompanham essa funcionalidade como trabalho futuro.
+Cinco foram corrigidos em 25/09/2026, cada um com teste, e o sexto foi corrigido em parte: os textos de tela deixaram de atribuir ao LOESS da ferramenta o que vale para o do R, e o que ficou aberto está registrado.
 
 % Itens 83, 84, 85, 86, 90 e 91 de docs/trabalho-futuro.md; D513 (bcbe853). Os itens 87, 88, 89
-% e 92 são da aba de vias (D523). Os números da tabela são da verificação de 24/09/2026, como diz a
+% e 92 saem por D523. Os números da tabela são da verificação de 24/09/2026, como diz a
 % legenda, com o SERRF e o LOESS de então; o fim da abstenção no neg_c18, de 20/10/2026, está em 5.3.7
 % (D573, SF2).
 
@@ -521,8 +518,8 @@ O mecanismo é conhecido e verificável: um método que ajusta uma curva atravé
 
 \textbf{O diagnóstico deriva as suas quantidades da literatura de consenso.} As quantidades que ele calcula são derivadas das três verificações que essa literatura recomenda --- o RSD por metabólito, o gráfico das duas primeiras componentes e a resposta contra a ordem de injeção ---, e duas delas, a mediana do RSD e a correlação da primeira componente com a ordem de injeção, são construção do trabalho. O corte de 0,20 é a reserva para modo desconhecido, e não o que a cascata aplica, que usa quatro limiares por modo, três deles acima de 20\%.
 
-% D540, medição B4, nota em M1; M17 e D220. Saíram os itens de M7 (o segundo caminho de código,
-% no multiverso) e de M6 (as réguas sem ótimo comum, [CA-8.8]), por D523.
+% D540, medição B4, nota em M1; M17 e D220. Saíram os itens de M7
+% e de M6 (as réguas sem ótimo comum, [CA-8.8]), por D523.
 
 \textbf{Leitura contra o referencial.} O referencial já afirma que não existe um ponto de corte universal para o RSD, que valores inferiores a 20--30\% são frequentemente adotados, e que cada decisão de processamento pode levar a resultados diferentes a partir de uma mesma matriz \cite{diguida2016non}. O resultado transforma essa afirmação de princípio em medida: sobre os mesmos dados, a escolha do estimador de RSD inverte a posição do LOESS diante da ausência de correção em três dos quatro modos. A diretriz de consenso de Broadhurst et al. (2018) recomenda o RSD por metabólito dos QCs, com corte de aceitação, e, como inspeções, a dispersão dos QCs em componentes principais e a resposta de cada metabólito contra a ordem de injeção; ela especifica a fórmula e adverte que, quando a curva de correção se ajusta ao erro aleatório, a precisão relatada fica irrealisticamente boa, recomendando relatá-la num conjunto de QCs retido ou por validação cruzada \cite{broadhurst2018guidelines}. A advertência está na diretriz; o trabalho mede o tamanho do efeito e mostra que ele inverte a posição do LOESS diante da ausência de correção em três dos quatro modos. \textbf{O que não se pode dizer:} que ``o LOESS corrige mal'' --- o resultado é sobre a régua, e não sobre o método ---; que a régua troca o melhor corretor --- isso só acontece no \texttt{neg\_\allowbreak{}c18}, por menos de um quinto de ponto percentual ---; nem que ``o corte da ferramenta coincide com o consensual'', sem dizer que o corte aplicado é por modo.
 
@@ -581,8 +578,7 @@ Daí duas consequências de projeto. O sistema não devolve \textit{scores} de P
 \item \textbf{Fronteira de rede.} O servidor embutido na janela escuta apenas no endereço local da própria máquina, e o caso de sistema CT-SEG-001 foi aprovado.
 \end{itemize}
 
-% M10 (sem a metade do enriquecimento), M9 e M11; src/refino/desktop/servidor.py:81. Os itens do
-% enriquecimento de lista identificada e da predição de vias saem por D523.
+% M10 (em parte), M9 e M11; src/refino/desktop/servidor.py:81. Parte dos itens sai por D523.
 
 \textbf{Leitura contra o referencial.} O referencial cita o MetaboAnalyst como ferramenta de análise da área \cite{pang2024metaboanalyst} e os níveis de identificação de metabólitos \cite{sumner2007proposed}. O resultado exige escopo: a ferramenta exporta no formato do MetaboAnalyst, mas não identifica metabólitos, e não há nada no código sobre os níveis de identificação.
 
@@ -643,7 +639,7 @@ As colunas do LOESS e do SERRF foram medidas em 27/10/2026, com os padrões da j
 % Insumo 5.3.7b, a metade das figuras; D539, medições A5 (as 12 células e a razão sobre as
 % matrizes do R: com batch_loess 0,0831 / 0,1145 / 0,2195 / 0,7699, com SERRF 0,0807 / 0,5047 /
 % 0,5563 / 0,2329) e A4b (a plataforma). Os 110,14% e 14,34% e o fim da abstenção no neg_c18: D573,
-% SF2. Os itens da predição de vias e do defeito do p das vias saem por D523.
+% SF2. Dois itens saem por D523.
 % Os números de depois das correções vêm das rodadas do Ryzen, no Fedora, que em 03/11/2026 estão na
 % branch claude/trusting-goldberg-5yudqx e ainda não no main (achado G14 da revisão de gaps de
 % 29/10/2026, branch claude/vigilant-lovelace-lmmo8r). A Tabela 5.8: rodada RD, parte A5,
@@ -690,9 +686,8 @@ figuras: barra sem correção & igual à mediana do R nos 4 modos & as barras do
 
 Os números do SERRF e do LOESS na Tabela~\ref{qua:5-2} são anteriores às correções de 24/10/2026, salvo a concordância do SERRF, a linha da régua e o agrupamento dos QCs, medidos depois delas.
 
-% Saíram, por D523: «réguas sem ótimo comum» (M6), «robustez» (M20), «vias pelo caminho da
-% janela» e «defeito do p das vias»; M7 sai de «a régua decide», e o enriquecimento sai da
-% interoperabilidade.
+% Saíram, por D523: «réguas sem ótimo comum» (M6), «robustez» (M20) e outros dois itens;
+% M7 sai de «a régua decide», e parte da interoperabilidade também sai.
 
 \section{Avaliação com usuários do laboratório}\label{sec:5-4}
 
@@ -743,13 +738,13 @@ A devolutiva é texto livre, e não há escore a calcular: sem o formulário res
 
 \subsection{Resultados}\label{sec:5-4-4}
 
-\textbf{A tarefa central foi concluída.} Os relatórios descrevem a importação dos arquivos, a correção da variação instrumental, o pré-processamento e a geração das matrizes de saída para o MetaboAnalyst. Um deles diz: ``Consegui executar a correção dos dados e salvar os arquivos necessários sem precisar de auxílio''. Outro diz que a importação, a correção por LOESS e SERRF, o pré-processamento e a exportação ``apresentaram funcionamento satisfatório durante meus testes''. As orientações do grupo aparecem nos relatórios em dois momentos: nas primeiras avaliações, por dificuldades com a disposição das ferramentas, a clareza das instruções e a linguagem da interface, que melhoraram depois das modificações sugeridas; e para entender os resultados do módulo de multiverso, que está fora do escopo deste trabalho (Anexo~\ref{anexo:devolutiva}).
+\textbf{A tarefa central foi concluída.} Os relatórios descrevem a importação dos arquivos, a correção da variação instrumental, o pré-processamento e a geração das matrizes de saída para o MetaboAnalyst. Um deles diz: ``Consegui executar a correção dos dados e salvar os arquivos necessários sem precisar de auxílio''. Outro diz que a importação, a correção por LOESS e SERRF, o pré-processamento e a exportação ``apresentaram funcionamento satisfatório durante meus testes''. As orientações do grupo aparecem nos relatórios nas primeiras avaliações, por dificuldades com a disposição das ferramentas, a clareza das instruções e a linguagem da interface, que melhoraram depois das modificações sugeridas (Anexo~\ref{anexo:devolutiva}).
 
 \textbf{Qualidade e confiança.} Um relatório considera adequados os indicadores que acompanham a correção, como as métricas dos controles de qualidade e a PCA, e aponta como positiva a melhora nas explicações sobre os padrões de variação instrumental e sobre as recomendações dos algoritmos de correção. Outro destaca as mensagens que apontam inconsistências nos arquivos de entrada, ``em vez de receber apenas uma mensagem genérica de erro'', e pede explicações mais claras sobre os critérios e os motivos das sugestões de correção; ali, os resultados ``se mostraram coerentes com os dados utilizados, não tendo identificado inconsistências evidentes''. Os relatórios condicionam o uso científico a uma conferência independente: ``minha avaliação corresponde à experiência de utilização da plataforma e não substitui a validação científica independente dos algoritmos implementados''; e o autor que usaria a ferramenta de novo e a recomendaria o faz ``mantendo a conferência independente dos resultados antes de sua aplicação científica''. A confiança era o tema da última seção do formulário, e a resposta coincide com a postura deste capítulo: cada resultado vale com o recorte em que foi medido (\ref{sec:5-3}).
 
 \textbf{Ganho em relação ao processo anterior.} Um relatório registra ``maior agilidade em comparação com os procedimentos que utilizaria habitualmente''; outro, que a ferramenta integra procedimentos antes feitos ``de maneira fragmentada'' e permite usar os módulos de forma independente, sem executar todas as etapas de um único pipeline. Na reunião de 04/11/2026 houve comentários no mesmo sentido.
 
-\textbf{O escopo.} Um dos relatórios diz: ``Considero que a versão atual apresenta condições satisfatórias para a entrega do Trabalho de Conclusão de Curso, uma vez que atende aos objetivos originalmente estabelecidos''. O mesmo relatório diz que ``os módulos adicionais de análises estatísticas, vias metabólicas e Multiverso ainda necessitam de validações específicas''. A análise de multiverso e as vias metabólicas estão no executável em versão beta e são trabalho futuro (introdução deste capítulo); o que as deixou fora deste trabalho foram o tempo, a alta complexidade desses módulos e a dificuldade de comunicação com o laboratório. A análise estatística tem testes do sistema (CT-PIP-004, CT-PIP-005 e \ref{sec:5-3-3}), mas não foi validada pelos usuários, e isso fica como limite (\ref{sec:5-4-5}).
+\textbf{O escopo.} Um dos relatórios diz: ``Considero que a versão atual apresenta condições satisfatórias para a entrega do Trabalho de Conclusão de Curso, uma vez que atende aos objetivos originalmente estabelecidos''. O mesmo relatório diz que o módulo de análises estatísticas ainda necessita de validações específicas. A análise estatística tem testes do sistema (CT-PIP-004, CT-PIP-005 e \ref{sec:5-3-3}), mas não foi validada pelos usuários, e isso fica como limite (\ref{sec:5-4-5}).
 
 \textbf{Dificuldades e sugestões.} A Tabela~\ref{tab:5-9} reúne os pontos levantados na devolutiva e o destino de cada um. Nenhum deles é defeito do sistema; todos são melhorias. Parte delas já está em desenvolvimento, depois da versão avaliada; nada do que entrou no programa depois dela foi avaliado pelos usuários nem por este capítulo.
 
@@ -766,9 +761,7 @@ uma seção com as referências científicas dos métodos e um resumo metodológ
 avaliar a normalidade dos dados depois da correção e da normalização, por variável e por grupo & em desenvolvimento \\ \hline
 explicações mais claras dos critérios e dos motivos das sugestões de correção & em desenvolvimento \\ \hline
 indicadores de progresso mais evidentes na área dos trabalhos em andamento, no pé da janela & em desenvolvimento \\ \hline
-explicações mais acessíveis dos resultados do multiverso & em desenvolvimento, em módulo beta \\ \hline
 etapas que não estavam completamente integradas, com dúvida sobre a sequência das operações & trabalho futuro \\ \hline
-outras bibliotecas e análise de redes no módulo de vias metabólicas & trabalho futuro, em módulo beta \\ \hline
 testes com outros pesquisadores de metabolômica, de perfis diferentes & trabalho futuro \\ \hline
 \end{tabularx}
 \fonte{Elaborado pelos autores.}
@@ -778,7 +771,7 @@ testes com outros pesquisadores de metabolômica, de perfis diferentes & trabalh
 % branch do repositório do código, em 07/11/2026, fora do main e de qualquer release: D657
 % (exportação em PNG, TIFF ou PDF, no DPI e no tamanho pedidos), D662 (cor e símbolo de cada grupo),
 % D664 (resumo metodológico e referências dos métodos), D663 (normalidade por variável e por grupo),
-% D665 (o Palpite e o Multiverso explicam o critério e o que cada número mede) e D661 (a faixa
+% D665 (o Palpite explica o critério e o que cada número mede) e D661 (a faixa
 % «Trabalhos em curso» com nome, estado, barra e etapa de cada trabalho). A reorganização das abas de
 % D651 veio de um pedido do orientador, e não da devolutiva, e por isso a linha das etapas fica como
 % trabalho futuro.
@@ -809,8 +802,8 @@ A conclusão da tarefa é declarada pelos usuários, e não observada; não há 
 % reprovações em tests/unit; 16 na segunda metade (9 de test_docker_capability.py, 2 de
 % test_compose.py e 1 de golden/test_insample_medians.py, que reprovam também na base, e 4 do portão
 % da dispersão); 1 em test_declared_artifacts.py (os 16 pares de AR186); e nenhuma nos arquivos da
-% janela e das figuras. Saíram, por D523: a evidência do
-% enriquecimento ([CA-11.7]) no item 1, os itens 10 e 12 do insumo e a parte das vias dos itens 9 e 11.
+% janela e das figuras. Saíram, por D523: parte do item 1
+% ([CA-11.7]), os itens 10 e 12 do insumo e parte dos itens 9 e 11.
 % O item 8 do insumo (BUG-006) está em 5.2.3.
 
 \endgroup
