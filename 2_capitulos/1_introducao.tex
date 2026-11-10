@@ -15,13 +15,13 @@ Por causa dessas inconsistências, antes de qualquer análise estatística é ne
  
 Outro problema comum na metabolômica é a fragmentação do fluxo de trabalho: cada etapa da análise costuma ser feita em um software diferente, como Progenesis QI, XCMS, MetaboAnalyst, SIMCA, R ou Python, o que aumenta o risco de erros, dificulta a padronização dos procedimentos e faz com que o resultado dependa muito da experiência individual do pesquisador \cite{weber2017computational}. Diante desse cenário, o uso de inteligência artificial (IA) e de aprendizado de máquina vem se mostrando uma alternativa interessante para apoiar o pesquisador nas decisões metodológicas que envolvem muitas variáveis técnicas e biológicas ao mesmo tempo. Quando essas técnicas são reunidas em um único ambiente de trabalho, é possível reduzir a fragmentação atual e tornar as decisões analíticas mais transparentes, padronizadas e reprodutíveis \cite{sen2021deep}.
  
-É nesse contexto que se insere o presente trabalho, que propõe o desenvolvimento de uma plataforma baseada em inteligência artificial para auxiliar no refino quimiométrico automatizado de matrizes de dados de LC-MS. A ferramenta proposta recebe como entrada as matrizes semi-processadas geradas em softwares como o Progenesis QI e conduz, de forma automatizada, etapas como filtragem por RSD, tratamento de valores ausentes, normalização, transformação, escalamento, análise estatística e suporte à interpretação bioquímica dos resultados.
+É nesse contexto que se insere o presente trabalho, que propõe o desenvolvimento de uma plataforma para assistir no refino quimiométrico de matrizes de dados de LC-MS. A ferramenta proposta recebe como entrada as matrizes semi-processadas geradas em softwares como o Progenesis QI e conduz, de forma assistida, etapas como filtragem por RSD, tratamento de valores ausentes, normalização, transformação, escalamento, análise estatística e suporte à interpretação bioquímica dos resultados.
 
 \section{Objetivos}
 
 \subsection{Objetivo Geral}
 
-Desenvolver uma plataforma para o refino quimiométrico automatizado de matrizes de dados analíticos brutos por cromatografia líquida acoplada à espectrometria de massas (LC-MS).
+Desenvolver uma plataforma para o refino quimiométrico assistido de matrizes de dados analíticos brutos por cromatografia líquida acoplada à espectrometria de massas (LC-MS).
 
 \subsection{Objetivos Específicos}
 
@@ -30,40 +30,37 @@ Desenvolver uma plataforma para o refino quimiométrico automatizado de matrizes
 Identificar e organizar as principais etapas do refino quimiométrico (filtragem por desvio padrão relativo (RSD), tratamento de valores ausentes, normalização, transformação e escalamento), que são determinantes para a interpretação biológica dos resultados em metabolômica \cite{vandenberg2006centering}.
 
 
-\subsubsection{Estruturar um fluxo de trabalho automatizado a partir das matrizes exportadas pelo Progenesis QI}
+
+\subsubsection{Estruturar um fluxo de trabalho assistido a partir das matrizes exportadas pelo Progenesis QI}
  
-Desenvolver um pipeline integrado que receba as matrizes semi-processadas geradas pelo Progenesis QI e conduza, de forma automatizada, as etapas seguintes do refino quimiométrico, evitando a necessidade de alternar entre várias ferramentas distintas durante a análise.
+Desenvolver um pipeline integrado que receba as matrizes semi-processadas geradas pelo Progenesis QI e conduza, de forma assistida, as etapas seguintes do refino quimiométrico, evitando a necessidade de alternar entre várias ferramentas distintas durante a análise.
  
 
-\subsubsection{Incorporar algoritmos de inteligência artificial como sistema de apoio à decisão metodológica}
+\subsubsection{Incorporar algoritmos como sistema de apoio à decisão metodológica}
  
-Integrar algoritmos de aprendizado de máquina capazes de orientar, a partir das características dos dados de entrada, a escolha dos métodos mais adequados de pré-processamento, normalização e análise estatística \cite{galal2022applications}.
+Integrar algoritmos determinísticos e de aprendizado de máquina capazes de orientar, a partir das características dos dados de entrada, a escolha dos métodos mais adequados de pré-processamento, normalização e análise estatística \cite{galal2022applications}.
 
 
 \subsubsection{Implementar funcionalidades de análise estatística univariada e multivariada com critérios de validação}
  
 Disponibilizar testes estatísticos univariados, com correção para múltiplas comparações via FDR, e métodos multivariados como PCA, PLS-DA e Random Forest, acompanhados de estratégias de validação cruzada e testes de permutação para reduzir o risco de sobreajuste \cite{worley2013multivariate}.
 
-\subsubsection{Disponibilizar suporte à interpretação bioquímica dos metabólitos anotados}
+\subsubsection{Avaliar o desempenho da plataforma em dados reais e sintéticos}
  
-Oferecer recursos que ajudem o pesquisador a interpretar os metabólitos identificados do ponto de vista bioquímico, considerando os níveis de confiança de identificação propostos pela \textit{Metabolomics Standards Initiative} (MSI) e a associação dos metabólitos a vias metabólicas relevantes \cite{sumner2007proposed}.
-
-\subsubsection{Avaliar o desempenho da plataforma em conjuntos de dados representativos}
- 
-Validar a ferramenta aplicando-a em conjuntos de dados de metabolômica não direcionada, comparando os resultados obtidos com aqueles de fluxos de trabalho convencionais e avaliando a consistência das decisões metodológicas sugeridas pelo sistema.
+Validar a ferramenta aplicando-a aos dados de metabolômica não direcionada do laboratório parceiro e a matrizes sintéticas com defeito conhecido, comparando os resultados com os do pipeline em R usado anteriormente pelo laboratório e avaliando a consistência das decisões metodológicas sugeridas pelo sistema.
 
 \section{Justificativa}
  
 A análise de dados metabolômicos não direcionados por LC-MS envolve diversos desafios técnicos, estatísticos e de interpretação. Mesmo depois de passar por um processamento inicial em softwares como o Progenesis QI, as matrizes resultantes ainda contêm variações técnicas, valores ausentes, sinais pouco reprodutíveis, redundâncias analíticas e possíveis falsos positivos. Por isso, são necessárias etapas adicionais de refino quimiométrico antes que qualquer análise estatística possa ser feita de forma confiável \cite{mahieu2017systems}. Essas etapas, no entanto, costumam ser realizadas em ferramentas separadas e frequentemente exigem conhecimentos avançados em estatística e programação. Isso fragmenta o fluxo de trabalho, prejudica a reprodutibilidade dos estudos e faz com que o resultado dependa fortemente da experiência individual do pesquisador \cite{weber2017computational}.
  
-Além disso, a escolha entre os diferentes métodos de filtragem, imputação, normalização, transformação, escalamento e análise estatística não é trivial. Como cada decisão pode levar a resultados diferentes a partir de uma mesma matriz, é fundamental contar com critérios sistemáticos, justificados e reprodutíveis \cite{diguida2016non}. Nesse cenário, ferramentas baseadas em inteligência artificial, capazes de processar grandes volumes de dados, reconhecer padrões e auxiliar em decisões metodológicas, surgem como uma alternativa interessante para tornar o fluxo de análise metabolômica mais acessível, transparente e padronizado \cite{sen2021deep}.
+Além disso, a escolha entre os diferentes métodos de filtragem, imputação, normalização, transformação, escalamento e análise estatística não é trivial. Como cada decisão pode levar a resultados diferentes a partir de uma mesma matriz, é fundamental contar com critérios sistemáticos, justificados e reprodutíveis \cite{diguida2016non}. Nesse cenário, ferramentas baseadas em algoritimos de auxílio à decisão, capazes de processar grandes volumes de dados, reconhecer padrões e auxiliar em decisões metodológicas, surgem como uma alternativa interessante para tornar o fluxo de análise metabolômica mais acessível, transparente e padronizado \cite{sen2021deep}.
  
-Assim, desenvolver uma plataforma integrada para o refino quimiométrico automatizado de dados de LC-MS pode contribuir tanto para o avanço metodológico da área quanto para tornar essas análises mais acessíveis, beneficiando pesquisadores com diferentes níveis de experiência em estatística e computação.
+Assim, desenvolver uma plataforma integrada para o refino quimiométrico assistido de dados de LC-MS pode contribuir tanto para o avanço metodológico da área quanto para tornar essas análises mais acessíveis, beneficiando pesquisadores com diferentes níveis de experiência em estatística e computação.
 
 \section{Delimitação do estudo}
 
-Este trabalho se limita ao desenvolvimento de uma plataforma computacional baseada em inteligência artificial voltada ao refino quimiométrico automatizado de matrizes de dados gerados por cromatografia líquida acoplada à espectrometria de massas (LC-MS), no contexto de estudos de metabolômica não direcionada. Outras técnicas analíticas, como ressonância magnética nuclear (NMR), cromatografia gasosa acoplada à espectrometria de massas (GC-MS) e eletroforese capilar acoplada à espectrometria de massas (CE-MS), bem como estudos de metabolômica direcionada, não fazem parte do escopo deste trabalho.
+Este trabalho se limita ao desenvolvimento de uma plataforma computacional baseada em algoritmos de auxílio à decisão, voltada ao refino quimiométrico assistido de matrizes de dados gerados por cromatografia líquida acoplada à espectrometria de massas (LC-MS), no contexto de estudos de metabolômica não direcionada. Outras técnicas analíticas, como ressonância magnética nuclear (NMR), cromatografia gasosa acoplada à espectrometria de massas (GC-MS) e eletroforese capilar acoplada à espectrometria de massas (CE-MS), bem como estudos de metabolômica direcionada, não fazem parte do escopo deste trabalho.
 
-A ferramenta atua em um estágio intermediário do fluxo de análise metabolômica, posicionada entre o processamento primário, feito pelo Progenesis QI, e as etapas finais de interpretação biológica. Sua entrada corresponde às matrizes semi-processadas exportadas pelo Progenesis QI, normalmente em formato CSV ou Excel, que contêm a caracterização das amostras (com a definição dos grupos experimentais) e uma planilha estruturada de \textit{features} identificadas por tempo de retenção, razão massa/carga (\textit{m/z}) e intensidade. Estão fora do escopo, portanto, todas as etapas anteriores a essa exportação, como o desenho experimental, a coleta e o preparo das amostras, a aquisição dos dados pelo espectrômetro de massas, a conversão dos arquivos brutos (\textit{raw}) e o alinhamento cromatográfico inicial.
+A ferramenta atua em um estágio intermediário do fluxo de análise metabolômica, posicionada entre o processamento primário, feito pelo Progenesis QI, e as etapas finais de interpretação biológica. Sua entrada corresponde às matrizes semi-processadas exportadas pelo Progenesis QI, normalmente em formato CSV, que contêm a caracterização das amostras (com a definição dos grupos experimentais) e uma planilha estruturada de \textit{features} identificadas por tempo de retenção, razão massa/carga (\textit{m/z}) e intensidade. Estão fora do escopo, portanto, todas as etapas anteriores a essa exportação, como o desenho experimental, a coleta e o preparo das amostras, a aquisição dos dados pelo espectrômetro de massas, a conversão dos arquivos brutos (\textit{raw}) e o alinhamento cromatográfico inicial.
 
-Funcionalmente, a plataforma contempla a avaliação da qualidade analítica da matriz, a filtragem por desvio padrão relativo (RSD), o tratamento de valores ausentes, a normalização, a transformação, o escalamento, as análises estatísticas univariadas e multivariadas e o suporte à interpretação bioquímica dos resultados. O foco está nas operações de caráter geral, aplicáveis à maioria dos estudos de metabolômica não direcionada por LC-MS, e a validação é feita com conjuntos de dados representativos. Customizações para projetos individuais, aplicação clínica direta em pacientes e a extensão a outras técnicas analíticas ou a estudos direcionados ficam reservadas para trabalhos futuros.
+Funcionalmente, a plataforma contempla a avaliação da qualidade analítica da matriz, a filtragem por desvio padrão relativo (RSD), o tratamento de valores ausentes, a normalização, a transformação, o escalamento, as análises estatísticas univariadas e multivariadas e o possível suporte à interpretação bioquímica dos resultados. O foco está nas operações de caráter geral do refino de metabolômica não direcionada por LC-MS, que não dependem de um estudo específico. A validação, porém, é feita com os dados de um único estudo do laboratório parceiro, e com matrizes sintéticas derivadas deles; a generalização para outros estudos, laboratórios e equipamentos não foi avaliada e fica como trabalho futuro. Customizações para projetos individuais e a aplicação clínica direta em pacientes também ficam fora do escopo deste trabalho.

@@ -32,15 +32,15 @@
 \usepackage{lastpage}			% Usado pela Ficha catalográfica
 \usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
 \usepackage{color}				% Controle das cores
-\usepackage{graphicx,graphicx}	% Inclusão de gráficos
-\usepackage{epsfig,subfig}		% Inclusão de figuras
+\usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 			% Melhorias de justificação
 \hypersetup{
     colorlinks=true,
     linkcolor=black,  % Changes internal links (like \ref) to black
     citecolor=black,  % Changes citations (like \cite) to black
     urlcolor=blue     % Changes URL links to blue
-} 
+}
+\pdfstringdefDisableCommands{\let\uppercase\relax}
 \usepackage[lmargin=3cm,tmargin=3cm,rmargin=2cm,bmargin=2cm]{geometry} %Formato de margem nas normas ABNT
 \setsecheadstyle{\bfseries \large}
 % ---------------------
@@ -55,6 +55,7 @@
 \usepackage{tabularx} 					% Para poder ter tabelas com colunas de largura auto-ajustável
 \usepackage{afterpage} 					% Para executar um comando depois do fim da página corrente
 \usepackage{xurl} 						% Para formatar URLs (endereços da Web)
+\usepackage{pdfpages}					% Para incluir documentos em PDF (anexos)
 \setlength\afterchapskip{18pt}          % Ajusta o espaçamento entre o título do capitulo e o texto para 1,5
 % \usepackage{titlesec}
 \renewcommand{\ABNTEXchapterfontsize}{\bfseries\Large} % Define tamanho da fonte para capítulos, seções e sub seções.
@@ -132,7 +133,7 @@
 \include{1_pretextual/6_assinaturas.tex}
 
 % Dedicatória
-% \include{1_pretextual/7_dedicatoria.tex}
+\include{1_pretextual/7_dedicatoria.tex}
 
 % Agradecimentos
 \include{1_pretextual/8_agradecimentos.tex}
@@ -220,6 +221,7 @@
 \include{2_capitulos/2_referencial}
 \include{2_capitulos/3_pesquisa}
 \include{2_capitulos/4_desenvolvimento}
+\include{2_capitulos/4_desenvolvimento_ia}.
 \include{2_capitulos/5_testes}
 \include{2_capitulos/6_consideracoes}
 

@@ -5,9 +5,9 @@
 
 \chapter[Desenvolvimento]{Desenvolvimento}
 
-Este capítulo apresenta o desenvolvimento do MetaRefino, aplicativo para Windows destinado ao apoio à decisão no tratamento de matrizes de dados metabolômicos obtidas por cromatografia líquida acoplada à espectrometria de massas. A ferramenta reúne procedimentos de processamento, métricas e visualizações para que o pesquisador examine os dados, compare alternativas e defina a configuração que pretende aplicar. São descritos o levantamento dos requisitos, a organização do projeto e a arquitetura que articula a interface gráfica, o processamento científico e a persistência.
+Este capítulo apresenta o desenvolvimento do MetaRefino, aplicativo para Windows destinado ao tratamento de matrizes de dados metabolômicos obtidas por cromatografia líquida acoplada à espectrometria de massas. São descritos o levantamento dos requisitos, a organização do projeto e a arquitetura que articula a interface gráfica, o processamento científico e a persistência. A exposição considera as necessidades relatadas pelo laboratório parceiro, as decisões registradas durante a implementação e as funcionalidades efetivamente acessíveis pelo fluxo principal da aplicação.
 
-O escopo apresentado compreende a preparação dos arquivos, a validação, o diagnóstico, a correção do sinal, o pré-processamento, as análises estatísticas e a geração de resultados. A condução do fluxo e a escolha dos métodos e parâmetros cabem ao pesquisador. O aplicativo executa as operações solicitadas e apresenta informações para subsidiar essas escolhas; a interpretação dos resultados e a adequação do procedimento ao estudo permanecem sob responsabilidade do profissional.
+O escopo apresentado compreende a preparação dos arquivos, a validação, o diagnóstico, a correção do sinal, o pré-processamento, as análises estatísticas e a geração de resultados. Essa delimitação acompanha a adotada no capítulo de testes. A presença de uma implementação, por si só, não é tomada como comprovação de sua validação em todas as condições de uso.
 
 A entrada do MetaRefino corresponde a uma matriz tabular já produzida pelo processamento primário, e não ao arquivo instrumental bruto. A detecção e o alinhamento dos picos permanecem no fluxo anterior, realizado com ferramentas como o Progenesis QI. Além disso, uma \textit{feature}, identificada por características do sinal como tempo de retenção e razão massa/carga, não equivale necessariamente a um metabólito identificado. O tratamento e as análises apresentados neste capítulo operam sobre essas variáveis e não estabelecem, isoladamente, a identidade química ou a relevância biológica de cada sinal.
 
@@ -140,7 +140,7 @@ O planejamento articulou o calendário acadêmico, o acompanhamento do orientado
 
 No primeiro semestre, as atividades compreenderam a definição do grupo e do tema, a ideação, a preparação do vídeo de apresentação da proposta, a definição da orientação, a aprovação do escopo e a elaboração dos capítulos iniciais. A apresentação do TCC I e os ajustes decorrentes das orientações recebidas constituíram os marcos de transição para a continuidade do trabalho.
 
-No desenvolvimento técnico, a aplicação foi organizada em frentes de fundação, ingestão e validação, métricas de qualidade, correção, diagnóstico, pré-processamento, estatística, geração de dados sintéticos para testes, apoio à decisão, persistência, interoperabilidade e interface. A organização permitiu tratar separadamente a leitura dos dados, os cálculos e a apresentação das informações ao pesquisador. Essa decomposição descreve o trabalho de implementação, sem equivaler à aprovação de todos os critérios de verificação.
+No desenvolvimento técnico, a aplicação foi decomposta em fases de fundação, ingestão e validação, métricas de qualidade, correção, diagnóstico, pré-processamento, estatística, geração sintética, decisão, persistência, interoperabilidade e interface. Essa decomposição descreve a organização da implementação, não uma declaração de que todos os critérios de todas as fases foram atendidos.
 
 A construção iniciou-se pelos contratos e pelas estruturas de dados, avançando para os algoritmos e sua integração. Os planos registrados a partir de julho documentam essa sequência. A interface Windows foi acrescentada à evolução do projeto, seguida de ajustes de operação, paralelismo, métodos de processamento, análises e figuras. Em outubro, o fluxo passou a permitir a inspeção dos resultados por etapas. As atividades posteriores incluíram correções e verificações dos métodos, conforme os registros discutidos no capítulo de testes.
 
@@ -150,34 +150,61 @@ A automação desses testes não deve ser confundida com uma rotina ativa de int
 
 \subsection{Cronograma acadêmico}
 
-O calendário acadêmico estabeleceu entregas distribuídas pelos dois semestres de 2026. A Tabela~\ref{tab:4-cronograma-academico} sintetiza os marcos relevantes à organização do projeto. As datas representam prazos e janelas institucionais, não uma comprovação de conclusão de cada atividade.
+O planejamento acadêmico foi organizado a partir dos documentos institucionais de cronograma do TCC I, referente ao primeiro semestre de 2026, e do TCC II, referente ao segundo semestre. Esses documentos distinguem a data de início da semana de atividades da data limite de entrega. Nas Tabelas~\ref{tab:4-cronograma-academico} e~\ref{tab:4-cronograma-academico-ii}, as datas de entrega correspondem à coluna de prazos dos documentos originais; as atividades sem prazo específico são identificadas pelo período ou pelo início da semana previsto. Todas as datas apresentadas referem-se a 2026 e expressam o planejamento institucional, sem constituir comprovação de execução ou de aprovação do grupo.
+
+No TCC I, os marcos concentraram-se na definição da proposta, na aprovação do escopo, na elaboração dos capítulos iniciais e na apresentação à banca. A fase de ideação foi prevista nas semanas iniciadas em 2 e 9 de março, e a preparação para a apresentação, na semana iniciada em 1º de junho. A Tabela~\ref{tab:4-cronograma-academico} reúne essas atividades e as entregas correspondentes.
 
 \begin{table}[htbp]
 \centering
-\caption{Principais marcos do calendário acadêmico de 2026.}
+\caption{Cronograma acadêmico do TCC I no primeiro semestre de 2026.}
 \label{tab:4-cronograma-academico}
 \small
-\begin{tabularx}{\textwidth}{|l|X|}
+\begin{tabularx}{\textwidth}{|p{0.26\textwidth}|X|}
 \hline
-\textbf{Prazo ou período} & \textbf{Marco previsto} \\ \hline
-02/03 & Definição dos grupos e do título do projeto. \\ \hline
-19/03 & Entrega do vídeo de apresentação da proposta. \\ \hline
-01/04 e 17/04 & Declaração de concordância e entrega do escopo aprovado, respectivamente. \\ \hline
+\textbf{Prazo ou referência temporal} & \textbf{Atividade ou entrega prevista} \\ \hline
+02/03 & Entrega da definição dos grupos e do título do projeto. \\ \hline
+Semanas de 02/03 e 09/03 & Fase de ideação com apoio docente, sem prazo de entrega específico. \\ \hline
+19/03 & Entrega do vídeo de apresentação da proposta (\textit{pitch}), com duração máxima de cinco minutos. \\ \hline
+Semana de 23/03 & Atribuição dos professores orientadores. \\ \hline
+01/04 & Entrega da Declaração de Concordância. \\ \hline
+Semanas de 06/04 e 13/04 & Desenvolvimento do escopo com aval do orientador. \\ \hline
+17/04 & Entrega do escopo aprovado pelo orientador. \\ \hline
+Semanas de 20/04 a 18/05 & Desenvolvimento dos capítulos 1, 2 e 3. \\ \hline
 27/05 & Entrega dos capítulos 1, 2 e 3. \\ \hline
+Semana de 01/06 & Preparação para a apresentação do TCC I. \\ \hline
 08/06 e 12/06 & Datas previstas para apresentação do TCC I à banca de professores. \\ \hline
-24/08 & Atualização cadastral dos grupos. \\ \hline
-06/09 e 13/09 & Entrega do cronograma e do relatório de andamento, respectivamente. \\ \hline
-09/11 & Entrega do documento final para avaliação do orientador. \\ \hline
-16/11 & Entrega da aprovação do orientador. \\ \hline
-19/11 & Entrega da declaração de revisão de português e do vídeo de demonstração. \\ \hline
-23/11 & Distribuição do documento aos professores da banca. \\ \hline
-01, 02, 03 e 08/12 & Sessões previstas para apresentação do TCC II. \\ \hline
-09 a 16/12 & Janela prevista para ajustes após a banca. \\ \hline
+Semana de 15/06 & Ajustes conforme as orientações do orientador e da banca. \\ \hline
 \end{tabularx}
-\par\smallskip{\footnotesize Fonte: elaboração dos autores a partir dos cronogramas institucionais do TCC I (2026/1) e do TCC II (2026/2).}
+\par\smallskip{\footnotesize Fonte: elaboração dos autores a partir do documento institucional ``2026/1 -- TCC I''.}
 \end{table}
 
-Os prazos condicionais de recuperação não foram tratados como etapas ordinárias de desenvolvimento. A preparação do texto, do vídeo e da apresentação precisa anteceder suas respectivas entregas, preservando tempo para revisão e eventuais solicitações do orientador.
+No TCC II, a sequência institucional compreendeu a atualização cadastral, a apresentação do cronograma do grupo, o relatório de andamento dos módulos e a preparação do documento final para avaliação do orientador. As entregas de novembro antecedem a distribuição à banca e as sessões de apresentação de dezembro, conforme a Tabela~\ref{tab:4-cronograma-academico-ii}.
+
+\begin{table}[htbp]
+\centering
+\caption{Cronograma acadêmico do TCC II no segundo semestre de 2026.}
+\label{tab:4-cronograma-academico-ii}
+\small
+\begin{tabularx}{\textwidth}{|p{0.26\textwidth}|X|}
+\hline
+\textbf{Prazo ou referência temporal} & \textbf{Atividade ou entrega prevista} \\ \hline
+24/08 & Atualização cadastral dos grupos. \\ \hline
+06/09 & Entrega do cronograma de atividades do grupo. \\ \hline
+13/09 & Entrega do relatório de andamento dos módulos do sistema em desenvolvimento. \\ \hline
+09/11 & Entrega do documento final do TCC para avaliação do orientador, prevista no período de atividades de 14/09 a 09/11. \\ \hline
+16/11 & Entrega da aprovação do orientador sobre a qualidade do trabalho. \\ \hline
+19/11 & Entrega da declaração de revisão de português e do vídeo de demonstração do funcionamento do projeto. \\ \hline
+23/11 & Distribuição do documento final aos professores que compõem a banca avaliativa. \\ \hline
+01/12, 02/12 e 03/12 & Apresentação do TCC II à banca nas sessões 1 a 3. \\ \hline
+08/12 & Apresentação do TCC II à banca na sessão 4. \\ \hline
+09/12 a 16/12 & Período previsto para ajustes conforme as orientações do orientador e da banca. \\ \hline
+\end{tabularx}
+\par\smallskip{\footnotesize Fonte: elaboração dos autores a partir do documento institucional ``2026/2 -- TCC II''.}
+\end{table}
+
+As datas de apresentação correspondem às sessões previstas para os grupos da disciplina. Sua indicação não atribui ao presente grupo uma data ou um horário específicos. O cronograma do TCC II estabelece apresentações de trinta minutos, distribuídos entre quinze minutos de exposição e quinze minutos de arguição, e prevê a presença dos integrantes durante toda a sessão do respectivo dia.
+
+Os documentos também estabelecem entregas finais condicionadas à não obtenção da média: 24 de junho para o TCC I e 17 de dezembro para o TCC II. Esses prazos são distintos das etapas regulares e não substituem os prazos ordinários de entrega, aprovação e distribuição à banca. A organização das atividades de redação, revisão e preparação dos materiais deve, portanto, considerar as datas institucionais e o tempo necessário para incorporar as solicitações do orientador.
 
 \subsection{Cronograma de desenvolvimento e diagrama de Gantt}
 
@@ -211,7 +238,7 @@ Apresentação e ajustes finais (grupo) & & & & & X & & & & & X & X \\ \hline
 
 As atividades de novembro e dezembro são apresentadas como previstas quando não há registro de sua conclusão. Da mesma forma, a disponibilização da aplicação ao laboratório e a avaliação pelos usuários constituem atividades diferentes: o envio do software não encerra a coleta de retorno. O estado da avaliação deve ser considerado na interpretação dos resultados apresentados no capítulo de testes.
 
-A avaliação junto ao laboratório constitui uma atividade de retorno sobre o uso da aplicação e deve ser distinguida dos testes internos de funcionamento. A apresentação de seus resultados depende de registros efetivamente disponíveis, identificando a versão utilizada e as condições da avaliação. O planejamento não constitui, por si só, evidência de aprovação pelo laboratório ou de ganho de produtividade.
+A avaliação pelo laboratório possui protocolo próprio e não se confunde com os testes internos. Como descrito na Seção~\ref{sec:5-4}, o profissional utiliza o aplicativo no próprio computador e a avaliação será concluída por devolutiva escrita. A conclusão da tarefa é autodeclarada; o protocolo não produz observação direta dos gestos nem medição do tempo de execução pelo participante. Enquanto os resultados não estiverem consolidados, essa etapa permanece identificada como avaliação em andamento, sem atribuição antecipada de aprovação ou de ganho de produtividade.
 
 \subsection{Papéis e responsabilidades dos integrantes}
 
@@ -341,7 +368,7 @@ Por fim, a separação entre algoritmos científicos e serviços de referência 
 \section{Projeto do banco de dados}
 \label{sec:projeto-banco-dados}
 
-O banco de dados do Refino foi projetado para preservar o contexto das operações de tratamento de dados metabolômicos. Além de armazenar informações sobre os estudos e as matrizes recebidas, sua estrutura permite registrar os diagnósticos produzidos, as configurações de processamento, as decisões metodológicas e as métricas obtidas nas execuções. Dessa forma, o resultado de um tratamento pode ser relacionado aos dados de origem e ao procedimento utilizado para produzi-lo.
+O banco de dados do MetaRefino foi projetado para preservar o contexto das operações de tratamento de dados metabolômicos. Além de armazenar informações sobre os estudos e as matrizes recebidas, sua estrutura permite registrar os diagnósticos produzidos, as configurações de processamento, as decisões metodológicas e as métricas obtidas nas execuções. Dessa forma, o resultado de um tratamento pode ser relacionado aos dados de origem e ao procedimento utilizado para produzi-lo.
 
 As matrizes de medições são recebidas por meio de arquivos exportados do Progenesis QI e submetidas às etapas de validação, correção e pré-processamento. Após o tratamento, os arquivos resultantes podem ser utilizados pelos profissionais do laboratório em ferramentas como o MetaboAnalyst. Nesse fluxo, o banco de dados armazena os metadados e os registros associados ao processamento, enquanto os valores das matrizes científicas são mantidos nos arquivos de entrada e nos artefatos de saída.
 
@@ -362,7 +389,7 @@ A soma de verificação, armazenada no campo \texttt{checksum\_entrada}, contrib
 
 O banco também preserva os metadados das amostras. Informações como ordem de injeção, tipo de amostra, grupo experimental e lote participam da interpretação dos dados e das operações de correção. Seu armazenamento mantém esses elementos associados à matriz, permitindo recuperar o contexto em que as medições foram obtidas.
 
-Outra finalidade da persistência é registrar a participação do sistema e do profissional nas escolhas metodológicas. O Refino pode produzir propostas de configuração por meio de regras ou modelos, mas o usuário pode avaliar e modificar essas propostas. O histórico precisa, portanto, distinguir a origem da escolha e preservar a justificativa registrada, evitando que a configuração final elimine a informação sobre a proposta inicial.
+Outra finalidade da persistência é registrar a participação do sistema e do profissional nas escolhas metodológicas. O MetaRefino apresenta informações de diagnóstico e sugestões de configuração para avaliação do usuário, que define os parâmetros do tratamento. O histórico precisa, portanto, distinguir a origem da escolha e preservar a justificativa registrada, evitando que a configuração final elimine a informação sobre a proposta inicial.
 
 A persistência mantém essas informações disponíveis após o encerramento da aplicação. Os registros deixam de depender da memória do processo e podem ser consultados posteriormente, favorecendo a análise técnica, a identificação de diferenças entre processamentos e a discussão das escolhas realizadas.
 
@@ -395,7 +422,7 @@ O relacionamento entre matriz e diagnóstico é de um para muitos. Essa organiza
 
 A tabela \texttt{decisions} armazena as escolhas metodológicas registradas no sistema. Cada decisão pertence a uma matriz e pode estar vinculada a um diagnóstico. Seus atributos incluem a especificação escolhida, a justificativa, a origem, a data de criação e informações sobre a apresentação da proposta e os campos sobrescritos pelo usuário.
 
-O campo \texttt{origem} distingue os valores \texttt{heuristica}, \texttt{modelo} e \texttt{manual}. Esses valores permitem identificar se a decisão foi produzida por uma regra, por um modelo ou pela intervenção do profissional. A justificativa, armazenada em \texttt{rationale}, acrescenta o contexto necessário para interpretar a escolha.
+O campo \texttt{origem} distingue os valores \texttt{heuristica}, \texttt{modelo} e \texttt{manual}. Esses valores registram a origem da sugestão ou da configuração, distinguindo os mecanismos internos de apoio e a entrada manual. A origem da sugestão não equivale à confirmação da configuração pelo profissional. A justificativa, armazenada em \texttt{rationale}, acrescenta o contexto necessário para interpretar a escolha.
 
 O vínculo entre decisão e diagnóstico é opcional. Essa característica permite registrar escolhas manuais mesmo quando não existe um diagnóstico associado. Uma decisão mantém, entretanto, seu vínculo com a matriz à qual se refere.
 
@@ -426,7 +453,7 @@ As chaves primárias identificam os registros de cada tabela. As chaves estrange
 
 As restrições de unicidade são aplicadas aos atributos ou às combinações que não devem ser duplicados. O nome do estudo constitui um exemplo desse controle. Entretanto, a presença de registros com vínculos semelhantes nem sempre representa duplicidade indevida.
 
-Na tabela \texttt{decisions}, não existe uma restrição de unicidade para a combinação entre matriz e diagnóstico. Essa característica permite preservar a proposta automática e a manifestação do profissional em registros separados. Impedir a existência dessas duas linhas comprometeria a representação da interação entre o sistema e o usuário.
+Na tabela \texttt{decisions}, não existe uma restrição de unicidade para a combinação entre matriz e diagnóstico. Essa característica permite preservar a sugestão do sistema e a manifestação do profissional em registros separados. Impedir a existência dessas duas linhas comprometeria a representação da interação entre o sistema e o usuário.
 
 O esquema declara exclusão em cascata em relacionamentos de dependência. Entre eles estão os vínculos entre estudo e matriz, matriz e amostra, e execução e relatório de qualidade. Essa política expressa que determinados registros dependentes devem ser removidos quando a entidade principal correspondente é excluída.
 
@@ -436,7 +463,7 @@ Essa característica delimita a responsabilidade dos mecanismos de integridade. 
 
 O relacionamento entre diagnóstico e decisão declara a política \texttt{SET NULL}. Seu objetivo é permitir que a exclusão de um diagnóstico preserve a decisão, removendo apenas a referência ao registro excluído. Dessa forma, a escolha metodológica pode permanecer no histórico mesmo quando o diagnóstico ao qual estava vinculada deixa de existir. No SQLite, essa política também exige tratamento compatível na camada de persistência.
 
-Os vocabulários fechados do domínio são controlados por validações específicas. No caso da origem das decisões, os valores previstos distinguem escolhas heurísticas, escolhas produzidas por modelo e escolhas manuais. A validação na aplicação impede que valores incompatíveis sejam encaminhados à persistência, enquanto as restrições existentes no esquema acrescentam controle no armazenamento.
+Os vocabulários fechados do domínio são controlados por validações específicas. No caso da origem das decisões, os valores previstos identificam a origem das sugestões de apoio e das configurações manuais, conforme o vocabulário do esquema. A validação na aplicação impede que valores incompatíveis sejam encaminhados à persistência, enquanto as restrições existentes no esquema acrescentam controle no armazenamento.
 
 O campo \texttt{runs.status} é gerenciado pela aplicação e não possui uma restrição de domínio equivalente no banco. A validade de seu conteúdo depende, portanto, dos procedimentos responsáveis por atualizar o estado da execução. Essa divisão mantém explícita a responsabilidade da camada que controla o ciclo de processamento.
 
@@ -459,7 +486,7 @@ Além da integridade estrutural, a persistência exige cuidados com os dados arm
 \subsection{Rastreabilidade das execuções}
 \label{subsec:rastreabilidade-execucoes}
 
-A rastreabilidade das execuções permite relacionar os resultados produzidos aos dados utilizados e ao procedimento aplicado. No Refino, essa capacidade é sustentada pela identificação das matrizes, pelo registro das configurações e sementes, pela preservação das decisões e pela associação das métricas de qualidade às execuções.
+A rastreabilidade das execuções permite relacionar os resultados produzidos aos dados utilizados e ao procedimento aplicado. No MetaRefino, essa capacidade é sustentada pela identificação das matrizes, pelo registro das configurações e sementes, pela preservação das decisões e pela associação das métricas de qualidade às execuções.
 
 O primeiro elemento desse percurso é a identificação da entrada. A matriz registra o estudo ao qual pertence, o modo de aquisição, suas dimensões e a soma de verificação do arquivo. Os metadados das amostras acrescentam informações sobre a ordem de injeção, o tipo, os grupos experimentais e os lotes. Esses registros estabelecem o contexto do conjunto de dados recebido.
 
@@ -473,17 +500,17 @@ A rastreabilidade é limitada ao conteúdo efetivamente persistido. O registro d
 
 As métricas de qualidade são vinculadas à execução por meio de \texttt{quality\_reports}. Essa relação permite consultar o resultado da avaliação junto à configuração que o produziu. Como diferentes medidas representam aspectos distintos do processamento, a análise considera um conjunto de métricas, evitando reduzir a avaliação a um único indicador.
 
-A preservação das decisões acrescenta outro nível de rastreabilidade. O campo de origem identifica se a escolha foi produzida por uma heurística, por um modelo ou pelo usuário. A justificativa permite compreender o motivo registrado, enquanto os campos relacionados à apresentação e à sobrescrita acrescentam informações sobre a interação do profissional com a proposta.
+A preservação das decisões acrescenta outro nível de rastreabilidade. O campo de origem identifica a procedência da sugestão ou da configuração registrada, permitindo distinguir o apoio fornecido pelo sistema da manifestação do usuário. A justificativa permite compreender o motivo registrado, enquanto os campos relacionados à apresentação e à sobrescrita acrescentam informações sobre a interação do profissional com a proposta.
 
-O registro da proposta automática e da escolha manual é realizado de forma a preservar os dois valores. Quando o profissional exerce o controle de alteração, sua manifestação não substitui a proposta existente. A manutenção desses registros permite analisar a concordância entre o que foi sugerido e o que foi escolhido.
+O registro da sugestão do sistema e da escolha manual é realizado de forma a preservar os dois valores. Quando o profissional exerce o controle de alteração, sua manifestação não substitui a proposta existente. A manutenção desses registros permite analisar a concordância entre o que foi sugerido e o que foi escolhido.
 
 Essa interação é representada por quatro situações:
 
 \begin{enumerate}
-    \item \textbf{Ausência de sobrescrita:} a proposta automática é mantida sem exercício explícito do controle de alteração.
+    \item \textbf{Ausência de sobrescrita:} a sugestão do sistema é mantida sem exercício explícito do controle de alteração.
     \item \textbf{Sobrescrita com concordância:} o profissional exerce o controle e mantém uma especificação igual à proposta.
     \item \textbf{Sobrescrita com discordância:} o profissional exerce o controle e escolhe uma especificação diferente.
-    \item \textbf{Ausência de proposta:} a configuração é definida manualmente sem uma proposta automática associada.
+    \item \textbf{Ausência de proposta:} a configuração é definida manualmente sem uma sugestão do sistema associada.
 \end{enumerate}
 
 A distinção entre ausência de sobrescrita e sobrescrita com concordância é necessária para interpretar a participação do usuário. Executar o processamento sem alterar os controles não demonstra, por si só, que a proposta foi avaliada e confirmada. Por outro lado, exercer o controle e manter a mesma configuração constitui uma manifestação explícita de concordância.
@@ -502,22 +529,22 @@ Dessa forma, a persistência sustenta o acompanhamento das execuções e a anál
 \section{Implementação das funcionalidades}
 \label{sec:implementacao-funcionalidades}
 
-A implementação do Refino organiza o tratamento de dados metabolômicos em um fluxo que compreende a importação dos arquivos, a validação de sua estrutura, o diagnóstico da matriz, a escolha do método de correção, o pré-processamento e a exportação dos resultados. As funcionalidades foram desenvolvidas para reduzir a fragmentação das operações realizadas em diferentes ferramentas e preservar o contexto das decisões metodológicas tomadas durante o processamento.
+A implementação do MetaRefino organiza o tratamento de dados metabolômicos em um fluxo que compreende a importação dos arquivos, a validação de sua estrutura, o diagnóstico da matriz, a seleção do método de correção pelo profissional, o pré-processamento e a exportação dos resultados. As funcionalidades foram desenvolvidas para reduzir a fragmentação das operações realizadas em diferentes ferramentas e preservar o contexto das decisões metodológicas tomadas durante o processamento.
 
 O aplicativo recebe matrizes de medições provenientes do Progenesis QI e informações complementares sobre as amostras. A partir dessas entradas, constrói uma representação interna padronizada, utilizada pelos componentes de diagnóstico, correção e análise. Os resultados são disponibilizados por meio de arquivos tratados, registros das etapas, métricas de qualidade e gráficos que auxiliam o profissional na avaliação do processamento.
 
 A interface Windows reúne os controles necessários à utilização dessas funcionalidades. As operações científicas permanecem separadas da apresentação, permitindo que a mesma lógica seja utilizada pela interface, pela API interna e pelos comandos de linha de comando. Essa organização evita a implementação de procedimentos distintos para uma mesma operação e favorece a manutenção do sistema.
 
-O fluxo contempla a participação do usuário nas escolhas metodológicas. As propostas automáticas podem ser avaliadas e sobrescritas, e as configurações aplicadas são registradas para consulta posterior. A automação atua, portanto, como apoio ao tratamento dos dados, mantendo a possibilidade de intervenção do profissional.
+O MetaRefino é uma ferramenta de apoio à decisão metodológica. O usuário examina o diagnóstico, avalia as sugestões e define o método de correção e os parâmetros de pré-processamento. A aplicação executa o tratamento conforme a configuração utilizada e registra as operações para consulta posterior.
 
 \subsection{Tecnologias utilizadas}
 \label{subsec:tecnologias-utilizadas}
 
-O sistema foi desenvolvido em Python 3.12, utilizando bibliotecas destinadas ao processamento numérico, à análise estatística, ao aprendizado de máquina, à construção da interface e à persistência. A definição de uma versão específica da linguagem contribui para a padronização do ambiente de desenvolvimento e de execução.
+O sistema foi desenvolvido em Python 3.12, utilizando bibliotecas destinadas ao processamento numérico, à análise estatística, aos métodos de correção, à construção da interface e à persistência. A definição de uma versão específica da linguagem contribui para a padronização do ambiente de desenvolvimento e de execução.
 
 O NumPy é utilizado na representação e na manipulação das matrizes numéricas. As operações sobre amostras e variáveis são realizadas sobre estruturas que permitem cálculos vetorizados, seleção de subconjuntos e aplicação de transformações. Essa base é compartilhada pelos componentes de correção, pré-processamento e avaliação.
 
-O SciPy fornece recursos para cálculos científicos e testes estatísticos. O scikit-learn é empregado nos procedimentos de aprendizado de máquina e nas análises multivariadas, incluindo modelos baseados em florestas aleatórias e operações utilizadas na construção e na avaliação de modelos.
+O SciPy fornece recursos para cálculos científicos e testes estatísticos. O scikit-learn fornece recursos utilizados na correção por florestas aleatórias e nas análises multivariadas, incluindo procedimentos de ajuste e validação. Esses recursos integram os métodos disponibilizados para avaliação pelo profissional.
 
 A interface gráfica foi implementada com PySide6, utilizando o conjunto de componentes do Qt. Essa tecnologia permite organizar os controles em painéis, apresentar tabelas e mensagens, incorporar gráficos e acompanhar operações executadas em segundo plano.
 
@@ -571,13 +598,13 @@ O diagnóstico pode produzir sugestões de fronteiras de lote a partir de mudan�
 
 A escolha do corretor considera três alternativas: manutenção do sinal sem correção, correção por regressão local e correção baseada em floresta aleatória. A alternativa sem correção permite conservar a matriz como referência e evita pressupor que toda entrada necessariamente se beneficia de uma transformação corretiva.
 
-O apoio à escolha apresenta duas operações distintas. A primeira produz uma estimativa de corretor a partir do perfil da matriz e da política disponível. A segunda executa as alternativas e compara os resultados por critérios de avaliação. A estimativa utiliza informações previamente aprendidas ou definidas; a comparação mede o comportamento dos métodos sobre os dados apresentados.
+O apoio à escolha reúne sugestões baseadas no perfil da matriz e a comparação dos métodos disponíveis. O usuário pode examinar as informações do diagnóstico e solicitar a execução das alternativas para comparar seus resultados por critérios de avaliação. Esses elementos oferecem subsídios para a seleção do corretor pelo profissional.
 
-Essa distinção possui consequências para o tempo de processamento e para a interpretação da resposta. Uma estimativa pode ser obtida com menor custo computacional, mas não equivale à execução dos corretores sobre a matriz. A medição exige realizar os tratamentos e calcular os indicadores correspondentes.
+A interpretação desses elementos considera o procedimento utilizado para obtê-los. Uma sugestão baseada no diagnóstico não equivale à avaliação dos corretores sobre a matriz. A comparação dos resultados exige realizar os tratamentos e calcular os indicadores correspondentes.
 
-O usuário pode selecionar o método e sobrescrever a proposta automática. A configuração aplicada e a origem da decisão são registradas, permitindo distinguir uma escolha produzida pelo sistema de uma escolha manual.
+O usuário seleciona o método e pode modificar a sugestão apresentada. A configuração aplicada e a origem do registro são preservadas, permitindo acompanhar a relação entre a informação fornecida pelo sistema e a escolha do profissional.
 
-A recomendação automática é apresentada como apoio metodológico. Seu desempenho depende das condições de avaliação e do conjunto de dados utilizado, de modo que sua disponibilidade não representa garantia de generalização para diferentes estudos ou modos de aquisição.
+A escolha do corretor exige considerar o desenho do estudo, as características da matriz e os indicadores de qualidade obtidos. As sugestões e comparações constituem apoio à avaliação metodológica, cuja interpretação permanece sob responsabilidade do profissional.
 
 \subsection{Correção do sinal}
 \label{subsec:correcao-sinal}
@@ -720,7 +747,7 @@ O acompanhamento integra a execução científica à interação com o usuário.
 \section{Interface e distribuição da aplicação}
 \label{sec:interface-distribuicao}
 
-A interface do Refino foi desenvolvida para disponibilizar as funcionalidades de tratamento de dados metabolômicos aos profissionais do laboratório por meio de um aplicativo Windows. Sua organização acompanha o fluxo de trabalho, desde a seleção dos arquivos até a avaliação e a exportação dos resultados, permitindo utilizar os recursos sem executar comandos ou configurar manualmente o ambiente de desenvolvimento.
+A interface do MetaRefino foi desenvolvida para disponibilizar as funcionalidades de tratamento de dados metabolômicos aos profissionais do laboratório por meio de um aplicativo Windows. Sua organização acompanha o fluxo de trabalho, desde a seleção dos arquivos até a avaliação e a exportação dos resultados, permitindo utilizar os recursos sem executar comandos ou configurar manualmente o ambiente de desenvolvimento.
 
 A aplicação utiliza uma interface gráfica construída com PySide6. Os componentes visuais se comunicam com uma API interna, iniciada pelo próprio aplicativo em endereço local. Essa organização mantém a apresentação separada dos procedimentos científicos e permite que as operações sejam executadas por uma camada comum de processamento.
 
@@ -747,8 +774,6 @@ A aba \textit{Gráficos} disponibiliza as representações visuais dos dados e d
 
 A aba \textit{O que este aplicativo NÃO faz} explicita os limites das funcionalidades. Essa informação integra o fluxo de utilização porque o tratamento computacional de uma matriz não equivale à identificação de compostos, à confirmação de significado biológico ou à validação clínica dos resultados.
 
-O executável também contém as abas \textit{Multiverso (beta)} e \textit{Vias metabólicas (beta)}. Esses recursos permanecem classificados como funcionalidades experimentais e trabalhos futuros, fora do fluxo principal considerado na entrega ao laboratório e no escopo deste trabalho.
-
 A área \textit{Trabalhos em curso} permanece disponível durante a navegação. Ela permite consultar o estado das operações e solicitar o cancelamento dos trabalhos que não precisam continuar. Dessa forma, o acompanhamento não fica restrito à aba em que a execução foi iniciada.
 
 O fluxo principal de utilização pode ser organizado nas seguintes etapas:
@@ -774,9 +799,9 @@ Os problemas de validação são apresentados com identificação e descrição.
 
 As mensagens evitam tratar toda ocorrência como uma falha equivalente. Uma entrada incompatível, uma condição que exige atenção e uma operação cancelada possuem significados diferentes e precisam ser representadas de forma correspondente.
 
-As propostas automáticas são acompanhadas de justificativas, permitindo que o usuário examine a base da escolha antes de aceitá-la ou modificá-la. A possibilidade de sobrescrita mantém o controle metodológico com o profissional e permite registrar sua participação no processo.
+As sugestões do sistema são acompanhadas de justificativas, permitindo que o usuário examine a base da escolha antes de aceitá-la ou modificá-la. A possibilidade de sobrescrita mantém o controle metodológico com o profissional e permite registrar sua participação no processo.
 
-A interface distingue a estimativa de corretor da medição realizada pela execução das alternativas. Essa separação impede que uma resposta produzida por uma política ou modelo seja interpretada como resultado de um ensaio que não foi executado sobre a matriz atual.
+A interface distingue a estimativa de corretor da medição realizada pela execução das alternativas. Essa separação permite distinguir uma sugestão baseada no diagnóstico dos resultados efetivamente medidos sobre a matriz atual.
 
 As métricas são apresentadas com informações que contextualizam seu significado. A identificação do estimador, da população considerada e do ponto de processamento permite reconhecer o que foi medido. Essa contextualização é necessária porque indicadores com o mesmo nome podem assumir interpretações diferentes conforme o procedimento utilizado.
 
@@ -821,12 +846,10 @@ As versões distribuídas recebem identificação própria e podem ser relaciona
 
 O aplicativo não utiliza instalador nem assinatura de código. Essas características fazem parte do formato de distribuição adotado e são informadas ao usuário. A utilização ocorre diretamente a partir da pasta extraída, que precisa conter os recursos necessários e permitir as operações locais de escrita realizadas pelo sistema.
 
-Os recursos experimentais presentes no executável permanecem identificados como beta. Sua inclusão no pacote não altera o escopo das funcionalidades consideradas na entrega principal, nem transforma seu uso em requisito para executar o tratamento das matrizes.
-
 \subsection{Repositório do código-fonte}
 \label{subsec:repositorio-codigo-fonte}
 
-O código-fonte do Refino é mantido em um repositório com controle de versão Git. O versionamento permite acompanhar as alterações realizadas durante o desenvolvimento e identificar o estado do projeto utilizado na geração de uma versão da aplicação.
+O código-fonte do MetaRefino é mantido em um repositório com controle de versão Git. O versionamento permite acompanhar as alterações realizadas durante o desenvolvimento e identificar o estado do projeto utilizado na geração de uma versão da aplicação.
 
 O repositório reúne o código da interface, os componentes de processamento, os módulos de persistência, as migrações, os testes e os scripts de empacotamento. Também contém os materiais necessários à compreensão da organização do projeto e à preparação do ambiente de desenvolvimento.
 
@@ -839,11 +862,9 @@ O código adota a licença GPL-3.0-or-later. A licença do software não abrange
 O endereço do repositório do projeto é apresentado a seguir:
 
 \begin{quote}
-    \textbf{Repositório do código-fonte:} [INSERIR LINK DO REPOSITÓRIO]
+    \textbf{Repositório do código-fonte:} \url{https://github.com/jv-Max04/monografia}
 \end{quote}
 
-% Substituir o marcador pelo endereço definitivo.
-% Caso o documento utilize o pacote hyperref, pode-se empregar:
-% \url{ENDERECO_DO_REPOSITORIO}
-
 \section{Síntese do desenvolvimento}
+
+O desenvolvimento do MetaRefino integrou, em uma aplicação para Windows, as etapas de importação e validação dos arquivos, diagnóstico das matrizes, seleção do corretor pelo profissional e execução da correção, pré-processamento, análise estatística e exportação dos resultados. A persistência dos dados e dos registros de execução permite relacionar os artefatos gerados às entradas, às configurações e às decisões metodológicas adotadas, enquanto a interface gráfica reúne essas operações em um fluxo de apoio à decisão, configurado e acompanhado pelo usuário. O empacotamento com as dependências necessárias e o controle de versão do código-fonte complementam a organização da aplicação e sua distribuição. Assim, a implementação estabelece a base para avaliar o funcionamento do sistema e os resultados do tratamento das matrizes, conforme os procedimentos e as evidências apresentados no capítulo seguinte.
