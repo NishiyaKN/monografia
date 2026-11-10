@@ -389,7 +389,7 @@ A soma de verificação, armazenada no campo \texttt{checksum\_entrada}, contrib
 
 O banco também preserva os metadados das amostras. Informações como ordem de injeção, tipo de amostra, grupo experimental e lote participam da interpretação dos dados e das operações de correção. Seu armazenamento mantém esses elementos associados à matriz, permitindo recuperar o contexto em que as medições foram obtidas.
 
-Outra finalidade da persistência é registrar a participação do sistema e do profissional nas escolhas metodológicas. O MetaRefino pode produzir propostas de configuração por meio de regras ou modelos, mas o usuário pode avaliar e modificar essas propostas. O histórico precisa, portanto, distinguir a origem da escolha e preservar a justificativa registrada, evitando que a configuração final elimine a informação sobre a proposta inicial.
+Outra finalidade da persistência é registrar a participação do sistema e do profissional nas escolhas metodológicas. O MetaRefino apresenta informações de diagnóstico e sugestões de configuração para avaliação do usuário, que define os parâmetros do tratamento. O histórico precisa, portanto, distinguir a origem da escolha e preservar a justificativa registrada, evitando que a configuração final elimine a informação sobre a proposta inicial.
 
 A persistência mantém essas informações disponíveis após o encerramento da aplicação. Os registros deixam de depender da memória do processo e podem ser consultados posteriormente, favorecendo a análise técnica, a identificação de diferenças entre processamentos e a discussão das escolhas realizadas.
 
@@ -422,7 +422,7 @@ O relacionamento entre matriz e diagnóstico é de um para muitos. Essa organiza
 
 A tabela \texttt{decisions} armazena as escolhas metodológicas registradas no sistema. Cada decisão pertence a uma matriz e pode estar vinculada a um diagnóstico. Seus atributos incluem a especificação escolhida, a justificativa, a origem, a data de criação e informações sobre a apresentação da proposta e os campos sobrescritos pelo usuário.
 
-O campo \texttt{origem} distingue os valores \texttt{heuristica}, \texttt{modelo} e \texttt{manual}. Esses valores permitem identificar se a decisão foi produzida por uma regra, por um modelo ou pela intervenção do profissional. A justificativa, armazenada em \texttt{rationale}, acrescenta o contexto necessário para interpretar a escolha.
+O campo \texttt{origem} distingue os valores \texttt{heuristica}, \texttt{modelo} e \texttt{manual}. Esses valores registram a origem da sugestão ou da configuração, distinguindo os mecanismos internos de apoio e a entrada manual. A origem da sugestão não equivale à confirmação da configuração pelo profissional. A justificativa, armazenada em \texttt{rationale}, acrescenta o contexto necessário para interpretar a escolha.
 
 O vínculo entre decisão e diagnóstico é opcional. Essa característica permite registrar escolhas manuais mesmo quando não existe um diagnóstico associado. Uma decisão mantém, entretanto, seu vínculo com a matriz à qual se refere.
 
@@ -453,7 +453,7 @@ As chaves primárias identificam os registros de cada tabela. As chaves estrange
 
 As restrições de unicidade são aplicadas aos atributos ou às combinações que não devem ser duplicados. O nome do estudo constitui um exemplo desse controle. Entretanto, a presença de registros com vínculos semelhantes nem sempre representa duplicidade indevida.
 
-Na tabela \texttt{decisions}, não existe uma restrição de unicidade para a combinação entre matriz e diagnóstico. Essa característica permite preservar a proposta automática e a manifestação do profissional em registros separados. Impedir a existência dessas duas linhas comprometeria a representação da interação entre o sistema e o usuário.
+Na tabela \texttt{decisions}, não existe uma restrição de unicidade para a combinação entre matriz e diagnóstico. Essa característica permite preservar a sugestão do sistema e a manifestação do profissional em registros separados. Impedir a existência dessas duas linhas comprometeria a representação da interação entre o sistema e o usuário.
 
 O esquema declara exclusão em cascata em relacionamentos de dependência. Entre eles estão os vínculos entre estudo e matriz, matriz e amostra, e execução e relatório de qualidade. Essa política expressa que determinados registros dependentes devem ser removidos quando a entidade principal correspondente é excluída.
 
@@ -463,7 +463,7 @@ Essa característica delimita a responsabilidade dos mecanismos de integridade. 
 
 O relacionamento entre diagnóstico e decisão declara a política \texttt{SET NULL}. Seu objetivo é permitir que a exclusão de um diagnóstico preserve a decisão, removendo apenas a referência ao registro excluído. Dessa forma, a escolha metodológica pode permanecer no histórico mesmo quando o diagnóstico ao qual estava vinculada deixa de existir. No SQLite, essa política também exige tratamento compatível na camada de persistência.
 
-Os vocabulários fechados do domínio são controlados por validações específicas. No caso da origem das decisões, os valores previstos distinguem escolhas heurísticas, escolhas produzidas por modelo e escolhas manuais. A validação na aplicação impede que valores incompatíveis sejam encaminhados à persistência, enquanto as restrições existentes no esquema acrescentam controle no armazenamento.
+Os vocabulários fechados do domínio são controlados por validações específicas. No caso da origem das decisões, os valores previstos identificam a origem das sugestões de apoio e das configurações manuais, conforme o vocabulário do esquema. A validação na aplicação impede que valores incompatíveis sejam encaminhados à persistência, enquanto as restrições existentes no esquema acrescentam controle no armazenamento.
 
 O campo \texttt{runs.status} é gerenciado pela aplicação e não possui uma restrição de domínio equivalente no banco. A validade de seu conteúdo depende, portanto, dos procedimentos responsáveis por atualizar o estado da execução. Essa divisão mantém explícita a responsabilidade da camada que controla o ciclo de processamento.
 
@@ -500,17 +500,17 @@ A rastreabilidade é limitada ao conteúdo efetivamente persistido. O registro d
 
 As métricas de qualidade são vinculadas à execução por meio de \texttt{quality\_reports}. Essa relação permite consultar o resultado da avaliação junto à configuração que o produziu. Como diferentes medidas representam aspectos distintos do processamento, a análise considera um conjunto de métricas, evitando reduzir a avaliação a um único indicador.
 
-A preservação das decisões acrescenta outro nível de rastreabilidade. O campo de origem identifica se a escolha foi produzida por uma heurística, por um modelo ou pelo usuário. A justificativa permite compreender o motivo registrado, enquanto os campos relacionados à apresentação e à sobrescrita acrescentam informações sobre a interação do profissional com a proposta.
+A preservação das decisões acrescenta outro nível de rastreabilidade. O campo de origem identifica a procedência da sugestão ou da configuração registrada, permitindo distinguir o apoio fornecido pelo sistema da manifestação do usuário. A justificativa permite compreender o motivo registrado, enquanto os campos relacionados à apresentação e à sobrescrita acrescentam informações sobre a interação do profissional com a proposta.
 
-O registro da proposta automática e da escolha manual é realizado de forma a preservar os dois valores. Quando o profissional exerce o controle de alteração, sua manifestação não substitui a proposta existente. A manutenção desses registros permite analisar a concordância entre o que foi sugerido e o que foi escolhido.
+O registro da sugestão do sistema e da escolha manual é realizado de forma a preservar os dois valores. Quando o profissional exerce o controle de alteração, sua manifestação não substitui a proposta existente. A manutenção desses registros permite analisar a concordância entre o que foi sugerido e o que foi escolhido.
 
 Essa interação é representada por quatro situações:
 
 \begin{enumerate}
-    \item \textbf{Ausência de sobrescrita:} a proposta automática é mantida sem exercício explícito do controle de alteração.
+    \item \textbf{Ausência de sobrescrita:} a sugestão do sistema é mantida sem exercício explícito do controle de alteração.
     \item \textbf{Sobrescrita com concordância:} o profissional exerce o controle e mantém uma especificação igual à proposta.
     \item \textbf{Sobrescrita com discordância:} o profissional exerce o controle e escolhe uma especificação diferente.
-    \item \textbf{Ausência de proposta:} a configuração é definida manualmente sem uma proposta automática associada.
+    \item \textbf{Ausência de proposta:} a configuração é definida manualmente sem uma sugestão do sistema associada.
 \end{enumerate}
 
 A distinção entre ausência de sobrescrita e sobrescrita com concordância é necessária para interpretar a participação do usuário. Executar o processamento sem alterar os controles não demonstra, por si só, que a proposta foi avaliada e confirmada. Por outro lado, exercer o controle e manter a mesma configuração constitui uma manifestação explícita de concordância.
@@ -529,22 +529,22 @@ Dessa forma, a persistência sustenta o acompanhamento das execuções e a anál
 \section{Implementação das funcionalidades}
 \label{sec:implementacao-funcionalidades}
 
-A implementação do MetaRefino organiza o tratamento de dados metabolômicos em um fluxo que compreende a importação dos arquivos, a validação de sua estrutura, o diagnóstico da matriz, a escolha do método de correção, o pré-processamento e a exportação dos resultados. As funcionalidades foram desenvolvidas para reduzir a fragmentação das operações realizadas em diferentes ferramentas e preservar o contexto das decisões metodológicas tomadas durante o processamento.
+A implementação do MetaRefino organiza o tratamento de dados metabolômicos em um fluxo que compreende a importação dos arquivos, a validação de sua estrutura, o diagnóstico da matriz, a seleção do método de correção pelo profissional, o pré-processamento e a exportação dos resultados. As funcionalidades foram desenvolvidas para reduzir a fragmentação das operações realizadas em diferentes ferramentas e preservar o contexto das decisões metodológicas tomadas durante o processamento.
 
 O aplicativo recebe matrizes de medições provenientes do Progenesis QI e informações complementares sobre as amostras. A partir dessas entradas, constrói uma representação interna padronizada, utilizada pelos componentes de diagnóstico, correção e análise. Os resultados são disponibilizados por meio de arquivos tratados, registros das etapas, métricas de qualidade e gráficos que auxiliam o profissional na avaliação do processamento.
 
 A interface Windows reúne os controles necessários à utilização dessas funcionalidades. As operações científicas permanecem separadas da apresentação, permitindo que a mesma lógica seja utilizada pela interface, pela API interna e pelos comandos de linha de comando. Essa organização evita a implementação de procedimentos distintos para uma mesma operação e favorece a manutenção do sistema.
 
-O fluxo contempla a participação do usuário nas escolhas metodológicas. As propostas automáticas podem ser avaliadas e sobrescritas, e as configurações aplicadas são registradas para consulta posterior. A automação atua, portanto, como apoio ao tratamento dos dados, mantendo a possibilidade de intervenção do profissional.
+O MetaRefino é uma ferramenta de apoio à decisão metodológica. O usuário examina o diagnóstico, avalia as sugestões e define o método de correção e os parâmetros de pré-processamento. A aplicação executa o tratamento conforme a configuração utilizada e registra as operações para consulta posterior.
 
 \subsection{Tecnologias utilizadas}
 \label{subsec:tecnologias-utilizadas}
 
-O sistema foi desenvolvido em Python 3.12, utilizando bibliotecas destinadas ao processamento numérico, à análise estatística, ao aprendizado de máquina, à construção da interface e à persistência. A definição de uma versão específica da linguagem contribui para a padronização do ambiente de desenvolvimento e de execução.
+O sistema foi desenvolvido em Python 3.12, utilizando bibliotecas destinadas ao processamento numérico, à análise estatística, aos métodos de correção, à construção da interface e à persistência. A definição de uma versão específica da linguagem contribui para a padronização do ambiente de desenvolvimento e de execução.
 
 O NumPy é utilizado na representação e na manipulação das matrizes numéricas. As operações sobre amostras e variáveis são realizadas sobre estruturas que permitem cálculos vetorizados, seleção de subconjuntos e aplicação de transformações. Essa base é compartilhada pelos componentes de correção, pré-processamento e avaliação.
 
-O SciPy fornece recursos para cálculos científicos e testes estatísticos. O scikit-learn é empregado nos procedimentos de aprendizado de máquina e nas análises multivariadas, incluindo modelos baseados em florestas aleatórias e operações utilizadas na construção e na avaliação de modelos.
+O SciPy fornece recursos para cálculos científicos e testes estatísticos. O scikit-learn fornece recursos utilizados na correção por florestas aleatórias e nas análises multivariadas, incluindo procedimentos de ajuste e validação. Esses recursos integram os métodos disponibilizados para avaliação pelo profissional.
 
 A interface gráfica foi implementada com PySide6, utilizando o conjunto de componentes do Qt. Essa tecnologia permite organizar os controles em painéis, apresentar tabelas e mensagens, incorporar gráficos e acompanhar operações executadas em segundo plano.
 
@@ -598,13 +598,13 @@ O diagnóstico pode produzir sugestões de fronteiras de lote a partir de mudan�
 
 A escolha do corretor considera três alternativas: manutenção do sinal sem correção, correção por regressão local e correção baseada em floresta aleatória. A alternativa sem correção permite conservar a matriz como referência e evita pressupor que toda entrada necessariamente se beneficia de uma transformação corretiva.
 
-O apoio à escolha apresenta duas operações distintas. A primeira produz uma estimativa de corretor a partir do perfil da matriz e da política disponível. A segunda executa as alternativas e compara os resultados por critérios de avaliação. A estimativa utiliza informações previamente aprendidas ou definidas; a comparação mede o comportamento dos métodos sobre os dados apresentados.
+O apoio à escolha reúne sugestões baseadas no perfil da matriz e a comparação dos métodos disponíveis. O usuário pode examinar as informações do diagnóstico e solicitar a execução das alternativas para comparar seus resultados por critérios de avaliação. Esses elementos oferecem subsídios para a seleção do corretor pelo profissional.
 
-Essa distinção possui consequências para o tempo de processamento e para a interpretação da resposta. Uma estimativa pode ser obtida com menor custo computacional, mas não equivale à execução dos corretores sobre a matriz. A medição exige realizar os tratamentos e calcular os indicadores correspondentes.
+A interpretação desses elementos considera o procedimento utilizado para obtê-los. Uma sugestão baseada no diagnóstico não equivale à avaliação dos corretores sobre a matriz. A comparação dos resultados exige realizar os tratamentos e calcular os indicadores correspondentes.
 
-O usuário pode selecionar o método e sobrescrever a proposta automática. A configuração aplicada e a origem da decisão são registradas, permitindo distinguir uma escolha produzida pelo sistema de uma escolha manual.
+O usuário seleciona o método e pode modificar a sugestão apresentada. A configuração aplicada e a origem do registro são preservadas, permitindo acompanhar a relação entre a informação fornecida pelo sistema e a escolha do profissional.
 
-A recomendação automática é apresentada como apoio metodológico. Seu desempenho depende das condições de avaliação e do conjunto de dados utilizado, de modo que sua disponibilidade não representa garantia de generalização para diferentes estudos ou modos de aquisição.
+A escolha do corretor exige considerar o desenho do estudo, as características da matriz e os indicadores de qualidade obtidos. As sugestões e comparações constituem apoio à avaliação metodológica, cuja interpretação permanece sob responsabilidade do profissional.
 
 \subsection{Correção do sinal}
 \label{subsec:correcao-sinal}
@@ -799,9 +799,9 @@ Os problemas de validação são apresentados com identificação e descrição.
 
 As mensagens evitam tratar toda ocorrência como uma falha equivalente. Uma entrada incompatível, uma condição que exige atenção e uma operação cancelada possuem significados diferentes e precisam ser representadas de forma correspondente.
 
-As propostas automáticas são acompanhadas de justificativas, permitindo que o usuário examine a base da escolha antes de aceitá-la ou modificá-la. A possibilidade de sobrescrita mantém o controle metodológico com o profissional e permite registrar sua participação no processo.
+As sugestões do sistema são acompanhadas de justificativas, permitindo que o usuário examine a base da escolha antes de aceitá-la ou modificá-la. A possibilidade de sobrescrita mantém o controle metodológico com o profissional e permite registrar sua participação no processo.
 
-A interface distingue a estimativa de corretor da medição realizada pela execução das alternativas. Essa separação impede que uma resposta produzida por uma política ou modelo seja interpretada como resultado de um ensaio que não foi executado sobre a matriz atual.
+A interface distingue a estimativa de corretor da medição realizada pela execução das alternativas. Essa separação permite distinguir uma sugestão baseada no diagnóstico dos resultados efetivamente medidos sobre a matriz atual.
 
 As métricas são apresentadas com informações que contextualizam seu significado. A identificação do estimador, da população considerada e do ponto de processamento permite reconhecer o que foi medido. Essa contextualização é necessária porque indicadores com o mesmo nome podem assumir interpretações diferentes conforme o procedimento utilizado.
 
@@ -867,4 +867,4 @@ O endereço do repositório do projeto é apresentado a seguir:
 
 \section{Síntese do desenvolvimento}
 
-O desenvolvimento do MetaRefino integrou, em uma aplicação para Windows, as etapas de importação e validação dos arquivos, diagnóstico das matrizes, escolha e execução da correção, pré-processamento, análise estatística e exportação dos resultados. A persistência dos dados e dos registros de execução permite relacionar os artefatos gerados às entradas, às configurações e às decisões metodológicas adotadas, enquanto a interface gráfica reúne essas operações em um fluxo acompanhado pelo usuário. O empacotamento com as dependências necessárias e o controle de versão do código-fonte complementam a organização da aplicação e sua distribuição. Assim, a implementação estabelece a base para avaliar o funcionamento do sistema e os resultados do tratamento das matrizes, conforme os procedimentos e as evidências apresentados no capítulo seguinte.
+O desenvolvimento do MetaRefino integrou, em uma aplicação para Windows, as etapas de importação e validação dos arquivos, diagnóstico das matrizes, seleção do corretor pelo profissional e execução da correção, pré-processamento, análise estatística e exportação dos resultados. A persistência dos dados e dos registros de execução permite relacionar os artefatos gerados às entradas, às configurações e às decisões metodológicas adotadas, enquanto a interface gráfica reúne essas operações em um fluxo de apoio à decisão, configurado e acompanhado pelo usuário. O empacotamento com as dependências necessárias e o controle de versão do código-fonte complementam a organização da aplicação e sua distribuição. Assim, a implementação estabelece a base para avaliar o funcionamento do sistema e os resultados do tratamento das matrizes, conforme os procedimentos e as evidências apresentados no capítulo seguinte.
